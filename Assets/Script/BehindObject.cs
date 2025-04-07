@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BehindObject : MonoBehaviour
 {
+    public string Tag="Player";
     bool isBehindObject = false;
     SpriteRenderer sr;
     Color color;
@@ -31,16 +32,18 @@ public class BehindObject : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(Tag))
         {
             isBehindObject = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(Tag))
         {
             isBehindObject = false;
         }
     }
+
+    
 }

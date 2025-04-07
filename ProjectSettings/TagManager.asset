@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - FishingSpot
-  - Mob Collider
+  - edge
+  - Tree
+  - Animal
   layers:
   - Default
   - TransparentFX

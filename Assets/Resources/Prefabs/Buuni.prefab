@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8427326701127921737}
   m_Layer: 0
   m_Name: Buuni
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: -4965077967733773471, guid: 482afbbfd14869647974968c0f2e0b81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d223a5ff4768ab24e97920011ff24ce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 5
   moveSpeed: 1
 --- !u!50 &1650305111105672918
 Rigidbody2D:
@@ -228,7 +229,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
