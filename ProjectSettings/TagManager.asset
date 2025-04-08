@@ -8,6 +8,7 @@ TagManager:
   - edge
   - Tree
   - Animal
+  - Flying Animal
   layers:
   - Default
   - TransparentFX

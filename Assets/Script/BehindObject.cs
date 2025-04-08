@@ -32,14 +32,14 @@ public class BehindObject : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(Tag))
+        if (collision.CompareTag(Tag) || collision.CompareTag("Animal"))
         {
             isBehindObject = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(Tag))
+        if (collision.CompareTag(Tag) || collision.CompareTag("Animal"))
         {
             isBehindObject = false;
         }
