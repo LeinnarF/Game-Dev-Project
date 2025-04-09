@@ -4,6 +4,7 @@ public class RandomSpawner : MonoBehaviour
 {
     public GameObject AnimalPrefab;
     public float SpawnTime;
+    public float SpawnDelayTime;
     private Camera mainCamera;
     private bool isSpawning = false;
     void Start()
@@ -15,10 +16,21 @@ public class RandomSpawner : MonoBehaviour
 
         void Update()
         {
-            if (IsInsideCamera() && AnimalPrefab != null && !isSpawning && !GameObject.FindGameObjectWithTag("Animal"))
-            {          
-                    Invoke(nameof(SpawnAnimal), SpawnTime);
-                    isSpawning = true;
+            if (IsInsideCamera() && !isSpawning )
+            {
+                // Check if the object is inside the camera's view
+                // If it is, start spawning animals
+                isSpawning = true;
+                Invoke(nameof(SpawnAnimal), SpawnTime);
+            }
+            else if (IsInsideCamera() && isSpawning)
+            {
+                // If the object is outside the camera's view, stop spawning animals
+                CancelInvoke(nameof(SpawnAnimal));
+            }
+            if(IsInsideCamera() && GameObject.Find(AnimalPrefab.name + "(Clone)")==null && isSpawning)
+            {
+                isSpawning = false;
             }
         
         }
@@ -26,7 +38,7 @@ public class RandomSpawner : MonoBehaviour
     void SpawnAnimal()
     {
         Instantiate(AnimalPrefab, transform.position,Quaternion.identity);
-        isSpawning = false;
+       
     }
     private bool IsInsideCamera()
     {
