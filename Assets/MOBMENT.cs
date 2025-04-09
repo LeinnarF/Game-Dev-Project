@@ -5,19 +5,23 @@ using UnityEngine;
 public class WalkingMOB : MonoBehaviour
 {
 
-    public float timer;
+    public float movementDelay;
     public float dedTimer;
     float direction = 1;
     public float moveSpeed = 3;
     Rigidbody2D rb;
     private Camera mainCamera;
     private bool isDedInvoked = false;
+    private float timer;
+    private Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mainCamera = Camera.main;
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        timer = 0;
         InvokeRepeating(nameof(flipDirection), timer, timer);
         InvokeRepeating(nameof(movement), timer, timer);
         
@@ -26,8 +30,13 @@ public class WalkingMOB : MonoBehaviour
     // Update is called once per frame
     void Update()
     {  
-       
-        
+        Animate();
+        if(timer == 0)
+        {
+        timer += movementDelay;
+        InvokeRepeating(nameof(flipDirection), timer, timer);
+        InvokeRepeating(nameof(movement), timer, timer);
+        } 
         if (IsOutsideCamera())
         {
         isDedInvoked = true;
@@ -84,6 +93,18 @@ public class WalkingMOB : MonoBehaviour
         return viewportPosition.x >= 0 && viewportPosition.x <= 1 && viewportPosition.y >= 0 && viewportPosition.y <= 1;
     }
     
+    private void Animate()
+    {
+        if (rb.linearVelocity.magnitude > 0.1f || rb.linearVelocity.magnitude < -0.1f)
+        {
+            anim.SetBool("isWalking", true);
+             
+        }
+        else if(rb.linearVelocity.magnitude == 0)
+        {
+            anim.SetBool("isWalking", false);
+        }  
+    }
   
 }
 

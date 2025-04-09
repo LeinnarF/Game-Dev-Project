@@ -1,10 +1,12 @@
-using System.Numerics;
-using System.Collections;
-using UnityEditor.Timeline.Actions;
+//using System.Numerics;
+//using System.Collections;
+//using UnityEditor.Timeline.Actions;
 using UnityEngine;
 public class FlyingMOBMENT : MonoBehaviour
 {
-
+    public GameObject FlyingMob; // Reference to the owl GameObject
+    public GameObject Shadow;
+    private Vector3 lastPos; // Store the last position of the owl
     public float timer;
     public float dedTimer;
     float direction = 1;
@@ -28,6 +30,7 @@ public class FlyingMOBMENT : MonoBehaviour
     {  
        
         Animate();
+        shadow();
         if (IsOutsideCamera())
         {
         isDedInvoked = true;
@@ -97,8 +100,9 @@ public class FlyingMOBMENT : MonoBehaviour
     {
         if (collision.CompareTag("Player") )
         {
-             CancelInvoke(nameof(flipDirection));
+            CancelInvoke(nameof(flipDirection));
             CancelInvoke(nameof(movement));
+            Animate();
            
         }
     }
@@ -114,6 +118,23 @@ public class FlyingMOBMENT : MonoBehaviour
         {
             anim.SetBool("isMoving", false);
         }  
+    }
+
+    private void shadow(){
+
+          if (rb.linearVelocity.magnitude > 0.1f || rb.linearVelocity.magnitude < -0.1f)
+        {
+        Vector3 shadowPosition = Shadow.transform.position;
+        shadowPosition.y = FlyingMob.transform.position.y - 1f; // Set shadow Y position
+        Shadow.transform.position = shadowPosition;
+        }
+        else if(rb.linearVelocity.magnitude == 0)
+        {
+            Vector3 shadowPosition = Shadow.transform.position;
+            shadowPosition.y = FlyingMob.transform.position.y - 31f/100f; // Set shadow Y position
+            Shadow.transform.position = shadowPosition;
+        }
+        
     }
 
     
