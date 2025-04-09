@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraMode : MonoBehaviour
@@ -26,6 +27,7 @@ public class CameraMode : MonoBehaviour
                 transform.position += move.normalized * moveSpeed * Time.deltaTime;
             }
         }
+       
     }
     public void SnapToPlayer()
     {
@@ -37,5 +39,19 @@ public class CameraMode : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Animal"))
+        {
+            Debug.Log("Animal entered trigger zone!");
+            if (Input.GetMouseButtonDown(0)) // Detects left mouse button click
+            {
+                    Debug.Log("Clicked on the object!");
+                    Destroy(other.gameObject);
+                
+            }
+        }
+        }
     
+
 }

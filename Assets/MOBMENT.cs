@@ -105,6 +105,6 @@ public class WalkingMOB : MonoBehaviour
             anim.SetBool("isWalking", false);
         }  
     }
-  
+    
 }
 
