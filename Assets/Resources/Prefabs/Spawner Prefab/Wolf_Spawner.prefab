@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 3222612683146484411, guid: 2960c31d26d9b834dbc52c6342eb8748, type: 3}
-  SpawnTime: 0
+  SpawnTime: 1
+  SpawnDelayTime: 0

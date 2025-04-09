@@ -37,8 +37,12 @@ public class RandomSpawner : MonoBehaviour
    
     void SpawnAnimal()
     {
+        SpawnDelayTime -= Time.deltaTime;
+        if (SpawnDelayTime <= 0)
+        {
         Instantiate(AnimalPrefab, transform.position,Quaternion.identity);
-       
+        SpawnDelayTime = SpawnTime;
+        }
     }
     private bool IsInsideCamera()
     {

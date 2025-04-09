@@ -37,4 +37,11 @@ public class CameraMode : MonoBehaviour
         }
     }
 
+    public void CaptureAnimal(){
+        if(Input.GetMouseButtonDown(0) && gameObject.CompareTag("Animal") || gameObject.CompareTag("Flying Animal")){
+            // Capture the animal and add it to the player's inventory or perform any other action
+            Destroy(gameObject); // Destroy the captured animal
+        }
+    }
+
 }
