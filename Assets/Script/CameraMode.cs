@@ -41,7 +41,7 @@ public class CameraMode : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Animal"))
+        if (other.CompareTag("Animal")||other.CompareTag("Flying Animal"))
         {
             Debug.Log("Animal entered trigger zone!");
             if (Input.GetMouseButtonDown(0)) // Detects left mouse button click
