@@ -10,6 +10,8 @@ TagManager:
   - Animal
   - Flying Animal
   - Camera
+  - Inventory
+  - Logbook
   layers:
   - Default
   - TransparentFX
