@@ -24,7 +24,7 @@ public class InventoryManager : MonoBehaviour
             menuActivated = false;
         }
 
-        else if (Input.GetButtonDown("Inventory") && !menuActivated)
+        else if (Input.GetButtonDown("Inventory") && !menuActivated && GameObject.Find("LogbookMenu") == null && GameObject.Find("CameraOverlay") == null)
         {
             Time.timeScale = 0;
             InventoryMenu.SetActive(true);
