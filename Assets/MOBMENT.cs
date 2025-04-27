@@ -31,6 +31,7 @@ public class WalkingMOB : MonoBehaviour
     void Update()
     {  
         Animate();
+    
         if(timer == 0)
         {
         timer += movementDelay;
