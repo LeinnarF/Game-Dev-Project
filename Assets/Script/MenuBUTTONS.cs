@@ -1,49 +1,43 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public Button continueButton;
-    public Button newGameButton;
-    public Button settingsButton;
-    public Button exitButton;
+    public int SceneToLoad;
+    public GameObject FaidOut;
 
-    private void Start()
-    {
-        // Add listeners to the buttons
-        continueButton.onClick.AddListener(OnContinue);
-        newGameButton.onClick.AddListener(OnNewGame);
-        settingsButton.onClick.AddListener(OnSettings);
-        exitButton.onClick.AddListener(OnExit);
-    }
-
-    private void OnContinue()
+    public void OnContinue()
     {
         // Load the last saved game or the game scene
         // Assuming the game scene is named "GameScene"
         SceneManager.LoadScene("Main");
     }
 
-    private void OnNewGame()
+    public void OnNewGame()
     {
-        // Load the game scene for a new game
-        SceneManager.LoadScene("Main");
+       StartCoroutine(loadMain());
     }
-
-    private void OnSettings()
+    IEnumerator loadMain()
+    {
+        Instantiate(FaidOut);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(SceneToLoad, LoadSceneMode.Single);
+    }
+    public void OnSettings()
     {
         // Load the settings scene
         // Assuming you have a settings scene named "SettingsScene"
         //SceneManager.LoadScene("SettingsScene");
     }
 
-    private void OnExit()
+    public void OnExit()
     {
-        // Exit the application
-        // Application.Quit();
-        // #if UNITY_EDITOR
-        // UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
-        // #endif
+       Application.Quit();
+        // If you are running in the editor, use this line to stop playing
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif 
     }
 }

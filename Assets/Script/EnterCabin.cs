@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class EnterCabin : MonoBehaviour
 {
     public bool IsInDoor = false;
+    public GameObject FadeOut;
     public string sceneToLoad; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,12 +28,18 @@ public class EnterCabin : MonoBehaviour
         }
     }
 
-    void Entry()
+    public void Entry()
     {
         if (IsInDoor == true)
         {
-            SceneManager.LoadScene(sceneToLoad);
+            StartCoroutine(load());
         }
     }
 
+    IEnumerator load()
+    {
+        Instantiate(FadeOut);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+    }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Camera
   - Inventory
   - Logbook
+  - TimeCYCLE
   layers:
   - Default
   - TransparentFX
