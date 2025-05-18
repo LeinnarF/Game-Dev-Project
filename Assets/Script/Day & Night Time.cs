@@ -43,7 +43,27 @@ public class LightIntensityController : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+public void Sleep()
+{
+    // Set time to 6:00 AM (or any morning time you prefer)
+    currentTime = 6f;
 
+    // Increase the day
+    currentDay++;
+
+    // Set light intensities for morning
+    lightSource.intensity = 1f;
+    NightSource.intensity = 0f;
+    LampLight.intensity = 0f;
+
+    // Ensure the lighting state is correct
+    StartCoroutine(PauseCoroutine());
+
+    // Update UI immediately
+        UpdateGameTime();
+
+    Debug.Log("Player slept. A new day has begun!");
+}
     void Start()
     {
         if (lightSource == null)
