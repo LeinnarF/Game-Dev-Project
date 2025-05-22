@@ -24,23 +24,16 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject.name = uniqueObjectName;
             DontDestroyOnLoad(persistentObject);
         }
-        else
-        {
-            DontDestroyOnLoad(persistentObject);
-        }
 
         // Spawn PersistentObject2 if not found
-        if (persistentObject2 == null && prefabToSpawn2 != null)
+        if (persistentObject2 == null && prefabToSpawn2 != null &&GameObject.Find("PersistentObject2") == null)
         {
             persistentObject2 = Instantiate(prefabToSpawn2);
             persistentObject2.name = uniqueObjectName2;
             DontDestroyOnLoad(persistentObject2);
             persistentObject2.SetActive(false); // Start disabled
-        }else
-        {
-            DontDestroyOnLoad(persistentObject2);
         }
-        
+
         // Check if user presses the "B" key
         if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null && !isActive)
         {
