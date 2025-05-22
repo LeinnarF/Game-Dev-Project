@@ -11,6 +11,17 @@ public class ObjectSpawner : MonoBehaviour
     private GameObject persistentObject;
     private GameObject persistentObject2;
 
+    void Start()
+    {
+         // Spawn PersistentObject2 if not found
+        if (persistentObject2 == null && prefabToSpawn2 != null)
+        {
+            persistentObject2 = Instantiate(prefabToSpawn2);
+            persistentObject2.name = uniqueObjectName2;
+            DontDestroyOnLoad(persistentObject2);
+            persistentObject2.SetActive(false); // Start disabled
+        }
+    }
     void Update()
     {
         // Look for existing objects by name
@@ -25,14 +36,7 @@ public class ObjectSpawner : MonoBehaviour
             DontDestroyOnLoad(persistentObject);
         }
 
-        // Spawn PersistentObject2 if not found
-        if (persistentObject2 == null && prefabToSpawn2 != null &&GameObject.Find("Logbook") == null)
-        {
-            persistentObject2 = Instantiate(prefabToSpawn2);
-            persistentObject2.name = uniqueObjectName2;
-            DontDestroyOnLoad(persistentObject2);
-            persistentObject2.SetActive(false); // Start disabled
-        }
+       
 
         // Check if user presses the "B" key
         if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null && !isActive)
