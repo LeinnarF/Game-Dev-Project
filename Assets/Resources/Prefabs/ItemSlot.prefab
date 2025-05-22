@@ -32,8 +32,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5728538708436917810}
-  - {fileID: 7785350209839005540}
   - {fileID: 603592656988613086}
+  - {fileID: 7785350209839005540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -95,8 +95,16 @@ MonoBehaviour:
   quantity: 0
   itemSprite: {fileID: 0}
   isFull: 0
+  itemDescription: 
+  emptySprite: {fileID: -6996651387514280970, guid: 6b26ed8c09efd7641b7916a8e2f49a74, type: 3}
+  maxNumberOfItems: 9
   quantityText: {fileID: 1930037999925595959}
   itemImage: {fileID: 1737112562219034031}
+  itemDescriptionImage: {fileID: 0}
+  ItemDescriptionNameText: {fileID: 0}
+  ItemDescriptionText: {fileID: 0}
+  selectedShader: {fileID: 5971627166673843419}
+  thisItemSelected: 0
 --- !u!1 &5209321923648234459
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
