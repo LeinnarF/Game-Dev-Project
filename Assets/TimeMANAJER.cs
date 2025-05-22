@@ -55,9 +55,8 @@ public class ObjectSpawner : MonoBehaviour
     void Update()
     {
         // Only toggle if neither Camera nor Inventory is active
-        GameObject cameraUI = GameObject.Find("Camera");
+        GameObject cameraUI = GameObject.Find("CameraOverlay");
         GameObject inventoryUI = GameObject.Find("Inventory");
-
         bool isBlocked = (cameraUI != null && cameraUI.activeInHierarchy) ||
                          (inventoryUI != null && inventoryUI.activeInHierarchy);
 
