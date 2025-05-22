@@ -7,11 +7,11 @@ public class ObjectSpawner : MonoBehaviour
 
     public string uniqueObjectName = "PersistentObject";
     public string uniqueObjectName2 = "PersistentObject2";
-    public bool isActive; // To control the activation of the second object
+    public bool isActive = false; // To control the activation of the second object
     private GameObject persistentObject;
     private GameObject persistentObject2;
 
-    void Start()
+    void Update()
     {
         // Look for existing objects by name
         persistentObject = GameObject.Find(uniqueObjectName);
@@ -24,6 +24,10 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject.name = uniqueObjectName;
             DontDestroyOnLoad(persistentObject);
         }
+        else
+        {
+            DontDestroyOnLoad(persistentObject);
+        }
 
         // Spawn PersistentObject2 if not found
         if (persistentObject2 == null && prefabToSpawn2 != null)
@@ -32,23 +36,23 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject2.name = uniqueObjectName2;
             DontDestroyOnLoad(persistentObject2);
             persistentObject2.SetActive(false); // Start disabled
-        }
-    }
-
-    void Update()
-    {
-        // Check if user presses the "B" key
-        if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null)
+        }else
         {
-            Time.timeScale = 1;
-            isActive = false; // Reset the flag when the key is pressed
+            DontDestroyOnLoad(persistentObject2);
+        }
+        
+        // Check if user presses the "B" key
+        if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null && !isActive)
+        {
+            isActive = true; // Toggle the flag
             ActivateCanvas();
         }
-        else if (Input.GetKeyDown(KeyCode.B) && !isActive)
+        else if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("PersistentObject2") != null)
         {
-            Time.timeScale = 0;
             DeactivateCanvas();
+            isActive = false;
         }
+        
 
     }
 
@@ -59,6 +63,7 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject2.SetActive(true);
             isActive = true; // Set the flag to true when activated
             Debug.Log("PersistentObject2 (Canvas) activated by pressing B.");
+         
         }
     }
     
@@ -69,6 +74,7 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject2.SetActive(false);
             isActive = false; // Set the flag to false when deactivated
             Debug.Log("PersistentObject2 (Canvas) deactivated.");
+           
         }
     }
         

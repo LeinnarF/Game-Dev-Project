@@ -119,9 +119,9 @@ public class LightIntensityController : MonoBehaviour
             LampLight.intensity = minIntensity;
         }
         // Sunset: 2:00 PM - 8:00 PM
-        else if (t >= 14f && t < 20f)
+        else if (t >= 16f && t < 20f)
         {
-            float progress = Mathf.InverseLerp(16f, 24f, t);
+            float progress = Mathf.InverseLerp(16f, 20f, t);
             NightSource.intensity = Mathf.Lerp(minIntensity, midnightIntensity, progress);
             lightSource.intensity = Mathf.Lerp(maxIntensity, minIntensity, progress);
             LampLight.intensity = Mathf.Lerp(minIntensity, maxIntensity, progress);
