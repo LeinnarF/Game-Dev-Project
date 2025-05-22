@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    public static ObjectSpawner Instance { get; private set; }
-
     [Header("Prefabs")]
     public GameObject prefabToSpawn;     // For PersistentObject
     public GameObject prefabToSpawn2;    // For PersistentObject2 (Canvas)
@@ -19,51 +17,35 @@ public class ObjectSpawner : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern to persist only one ObjectSpawner
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        // Spawn PersistentObject if not already in the scene
-        if (GameObject.Find(uniqueObjectName) == null && prefabToSpawn != null)
+        // Handle PersistentObject
+        persistentObject = GameObject.Find(uniqueObjectName);
+        if (persistentObject == null && prefabToSpawn != null)
         {
             persistentObject = Instantiate(prefabToSpawn);
             persistentObject.name = uniqueObjectName;
             DontDestroyOnLoad(persistentObject);
         }
-        else
-        {
-            persistentObject = GameObject.Find(uniqueObjectName);
-        }
 
-        // Spawn PersistentObject2 (Canvas) if not already in the scene
-        if (GameObject.Find(uniqueObjectName2) == null && prefabToSpawn2 != null)
+        // Handle PersistentObject2 (Canvas)
+        persistentObject2 = GameObject.Find(uniqueObjectName2);
+        if (persistentObject2 == null && prefabToSpawn2 != null)
         {
             persistentObject2 = Instantiate(prefabToSpawn2);
             persistentObject2.name = uniqueObjectName2;
             DontDestroyOnLoad(persistentObject2);
             persistentObject2.SetActive(false); // Start disabled
         }
-        else
-        {
-            persistentObject2 = GameObject.Find(uniqueObjectName2);
-        }
     }
 
     void Update()
     {
-        // Recover lost reference after scene change
+        // Re-find in case references are lost
         if (persistentObject2 == null)
         {
             persistentObject2 = GameObject.Find(uniqueObjectName2);
         }
 
-        // Only toggle if neither CameraOverlay nor Inventory is active
+        // Block toggle if UI overlays are open
         GameObject cameraUI = GameObject.Find("CameraOverlay");
         GameObject inventoryUI = GameObject.Find("Inventory");
 
