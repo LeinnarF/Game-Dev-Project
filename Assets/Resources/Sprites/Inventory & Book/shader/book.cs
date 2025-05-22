@@ -2,116 +2,126 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class book : MonoBehaviour
+public class Book : MonoBehaviour
 {
     [SerializeField] private float pageSpeed = 0.5f;
     [SerializeField] private List<Transform> pages;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject forwardButton;
 
-    private int index = -1;
-    private bool rotate = false;
+    private int currentPageIndex = 0;
+    private bool isRotating = false;
+    private Coroutine rotationCoroutine;
 
     private void Start()
     {
-        // Guard against empty page list
+        InitializeBook();
+        UpdateButtonStates();
+    }
+
+    private void InitializeBook()
+    {
         if (pages == null || pages.Count == 0)
         {
-            Debug.LogWarning("Book: No pages assigned.");
+            Debug.LogError("No pages assigned in the book!");
             return;
         }
 
-        InitialState();
-    }
+        currentPageIndex = Mathf.Clamp(PlayerPrefs.GetInt("BookPageIndex", 0), 0, pages.Count - 1);
 
-    public void InitialState()
-    {
         for (int i = 0; i < pages.Count; i++)
         {
-            if (pages[i] != null)
-                pages[i].rotation = Quaternion.identity;
+            pages[i].rotation = Quaternion.Euler(0, i <= currentPageIndex ? 0 : 180f, 0);
+            pages[i].SetSiblingIndex(i);
         }
 
-        index = -1;
-
-        if (pages.Count > 0 && pages[0] != null)
-            pages[0].SetAsLastSibling();
-
-        if (backButton != null) backButton.SetActive(false);
-        if (forwardButton != null) forwardButton.SetActive(true);
+        pages[currentPageIndex].SetAsLastSibling();
     }
 
-    public void RotateForward()
+    public void NavigateForward()
     {
-        if (rotate || index + 1 >= pages.Count) return;
-
-        index++;
-        float angle = 180f;
-
-        ForwardButtonActions();
-
-        if (pages[index] != null)
-            pages[index].SetAsLastSibling();
-
-        StartCoroutine(Rotate(angle, true));
-    }
-
-    public void ForwardButtonActions()
-    {
-        if (backButton != null && !backButton.activeInHierarchy)
-            backButton.SetActive(true);
-
-        if (forwardButton != null && index == pages.Count - 1)
-            forwardButton.SetActive(false);
-    }
-
-    public void RotateBack()
-    {
-        if (rotate || index < 0) return;
-
-        float angle = 0f;
-
-        if (pages[index] != null)
-            pages[index].SetAsLastSibling();
-
-        BackButtonActions();
-
-        StartCoroutine(Rotate(angle, false));
-    }
-
-    public void BackButtonActions()
-    {
-        if (forwardButton != null && !forwardButton.activeInHierarchy)
-            forwardButton.SetActive(true);
-
-        if (index - 1 < 0 && backButton != null)
-            backButton.SetActive(false);
-    }
-
-    private IEnumerator Rotate(float angle, bool forward)
-    {
-        rotate = true;
-        Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
-        float value = 0f;
-
-        while (true)
+        if (CanTurnPageForward() && !isRotating)
         {
-            value += Time.deltaTime * pageSpeed;
+            if (rotationCoroutine != null)
+                StopCoroutine(rotationCoroutine);
 
-            if (pages[index] != null)
-                pages[index].rotation = Quaternion.Slerp(pages[index].rotation, targetRotation, value);
+            rotationCoroutine = StartCoroutine(RotatePage(currentPageIndex, true));
+        }
+    }
 
-            float angle1 = Quaternion.Angle(pages[index].rotation, targetRotation);
-            if (angle1 < 0.1f)
-            {
-                if (!forward)
-                    index--;
+    public void NavigateBack()
+    {
+        if (CanTurnPageBackward() && !isRotating)
+        {
+            if (rotationCoroutine != null)
+                StopCoroutine(rotationCoroutine);
 
-                rotate = false;
-                yield break;
-            }
+            rotationCoroutine = StartCoroutine(RotatePage(currentPageIndex - 1, false));
+        }
+    }
 
+    private IEnumerator RotatePage(int pageIndex, bool forward)
+    {
+        if (pageIndex < 0 || pageIndex >= pages.Count)
+        {
+            Debug.LogError("Invalid page index: " + pageIndex);
+            yield break;
+        }
+
+        isRotating = true;
+        Transform page = pages[pageIndex];
+        float startAngle = forward ? 0 : 180;
+        float endAngle = forward ? 180 : 0;
+
+        page.SetAsLastSibling();
+
+        float t = 0;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * pageSpeed;
+            float angle = Mathf.LerpAngle(startAngle, endAngle, t);
+            page.rotation = Quaternion.Euler(0, angle, 0);
             yield return null;
         }
+
+        // Update page index
+        currentPageIndex += forward ? 1 : -1;
+
+        UpdateButtonStates();
+        isRotating = false;
+
+        PlayerPrefs.SetInt("BookPageIndex", currentPageIndex);
+        PlayerPrefs.Save();
+    }
+
+    private bool CanTurnPageForward()
+    {
+        return currentPageIndex < pages.Count - 1;
+    }
+
+    private bool CanTurnPageBackward()
+    {
+        return currentPageIndex > 0;
+    }
+
+    public int PagesRemainingForward()
+    {
+        return pages.Count - 1 - currentPageIndex;
+    }
+
+    public int PagesRemainingBackward()
+    {
+        return currentPageIndex;
+    }
+
+    private void UpdateButtonStates()
+    {
+        backButton.SetActive(CanTurnPageBackward());
+        forwardButton.SetActive(CanTurnPageForward());
+    }
+
+    private void OnDestroy()
+    {
+        PlayerPrefs.Save();
     }
 }
