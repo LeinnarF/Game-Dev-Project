@@ -13,13 +13,24 @@ public class ObjectSpawner : MonoBehaviour
 
     void Start()
     {
-         // Spawn PersistentObject2 if not found
+        persistentObject = GameObject.Find(uniqueObjectName);
+        persistentObject2 = GameObject.Find(uniqueObjectName2);
+        isActive = false; // Initialize the flag
+        // Spawn PersistentObject2 if not found
         if (persistentObject2 == null && prefabToSpawn2 != null)
         {
             persistentObject2 = Instantiate(prefabToSpawn2);
             persistentObject2.name = uniqueObjectName2;
             DontDestroyOnLoad(persistentObject2);
             persistentObject2.SetActive(false); // Start disabled
+        }
+        
+        // Spawn PersistentObject if not found
+        if (persistentObject == null && prefabToSpawn != null)
+        {
+            persistentObject = Instantiate(prefabToSpawn);
+            persistentObject.name = uniqueObjectName;
+            DontDestroyOnLoad(persistentObject);
         }
     }
     void Update()
@@ -28,48 +39,19 @@ public class ObjectSpawner : MonoBehaviour
         persistentObject = GameObject.Find(uniqueObjectName);
         persistentObject2 = GameObject.Find(uniqueObjectName2);
 
-        // Spawn PersistentObject if not found
-        if (persistentObject == null && prefabToSpawn != null)
-        {
-            persistentObject = Instantiate(prefabToSpawn);
-            persistentObject.name = uniqueObjectName;
-            DontDestroyOnLoad(persistentObject);
-        }
         // Check if user presses the "B" key
-        if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null && !isActive)
+        if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null )
         {
             isActive = true; // Toggle the flag
-            ActivateCanvas();
+            persistentObject2.SetActive(true);
         }
-        else if (Input.GetKeyDown(KeyCode.B) && isActive)
+        if (Input.GetKeyDown(KeyCode.B) && isActive == true)
         {
-            DeactivateCanvas();
+            persistentObject2.SetActive(false);
             isActive = false;
         }
         
 
-    }
-
-    public void ActivateCanvas()
-    {
-        if (persistentObject2 != null)
-        {
-            persistentObject2.SetActive(true);
-            isActive = true; // Set the flag to true when activated
-            Debug.Log("PersistentObject2 (Canvas) activated by pressing B.");
-         
-        }
-    }
-    
-    public void DeactivateCanvas()
-    {
-        if (persistentObject2 != null)
-        {
-            persistentObject2.SetActive(false);
-            isActive = false; // Set the flag to false when deactivated
-            Debug.Log("PersistentObject2 (Canvas) deactivated.");
-           
-        }
     }
         
 }
