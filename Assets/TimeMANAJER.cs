@@ -35,16 +35,13 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject.name = uniqueObjectName;
             DontDestroyOnLoad(persistentObject);
         }
-
-       
-
         // Check if user presses the "B" key
         if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("InventoryMenu") == null && GameObject.Find("CameraOverlay") == null && !isActive)
         {
             isActive = true; // Toggle the flag
             ActivateCanvas();
         }
-        else if (Input.GetKeyDown(KeyCode.B) && GameObject.Find("PersistentObject2") != null)
+        else if (Input.GetKeyDown(KeyCode.B) && isActive)
         {
             DeactivateCanvas();
             isActive = false;
