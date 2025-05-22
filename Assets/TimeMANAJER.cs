@@ -26,7 +26,7 @@ public class ObjectSpawner : MonoBehaviour
         }
 
         // Spawn PersistentObject2 if not found
-        if (persistentObject2 == null && prefabToSpawn2 != null &&GameObject.Find("PersistentObject2") == null)
+        if (persistentObject2 == null && prefabToSpawn2 != null &&GameObject.Find("Logbook") == null)
         {
             persistentObject2 = Instantiate(prefabToSpawn2);
             persistentObject2.name = uniqueObjectName2;
