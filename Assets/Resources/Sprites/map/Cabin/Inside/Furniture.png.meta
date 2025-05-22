@@ -23,6 +23,9 @@ TextureImporter:
   - first:
       213: -3665240723269962499
     second: Furniture_6
+  - first:
+      213: -1818099164645460120
+    second: Furniture_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -266,8 +269,8 @@ TextureImporter:
       name: Furniture_6
       rect:
         serializedVersion: 2
-        x: 44
-        y: 249
+        x: 4
+        y: 254
         width: 72
         height: 132
       alignment: 0
@@ -280,6 +283,28 @@ TextureImporter:
       bones: []
       spriteID: df4b2314bf2722dc0800000000000000
       internalID: -3665240723269962499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Furniture_7
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 274
+        width: 72
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8677fd44170d4c6e0800000000000000
+      internalID: -1818099164645460120
       vertices: []
       indices: 
       edges: []
@@ -297,14 +322,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Furniture_0: 5852135935505538600
-      Furniture_1: 6580706180292963874
-      Furniture_2: 711061946136450388
-      Furniture_3: -5205570905279116615
-      Furniture_4: -3062193336436783412
-      Furniture_5: -5819481625698966781
-      Furniture_6: -3665240723269962499
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
