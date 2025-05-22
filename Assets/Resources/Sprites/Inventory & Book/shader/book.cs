@@ -4,100 +4,114 @@ using UnityEngine;
 
 public class book : MonoBehaviour
 {
-    [SerializeField] float pageSpeed = 0.5f;
-    [SerializeField] List<Transform> pages;
-    int index = -1;
-    bool rotate = false;
-    [SerializeField] GameObject backButton;
-    [SerializeField] GameObject forwardButton;
+    [SerializeField] private float pageSpeed = 0.5f;
+    [SerializeField] private List<Transform> pages;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject forwardButton;
+
+    private int index = -1;
+    private bool rotate = false;
 
     private void Start()
     {
+        // Guard against empty page list
+        if (pages == null || pages.Count == 0)
+        {
+            Debug.LogWarning("Book: No pages assigned.");
+            return;
+        }
+
         InitialState();
     }
 
     public void InitialState()
     {
-        for (int i=0; i<pages.Count; i++)
+        for (int i = 0; i < pages.Count; i++)
         {
-            pages[i].transform.rotation=Quaternion.identity;
+            if (pages[i] != null)
+                pages[i].rotation = Quaternion.identity;
         }
-        pages[0].SetAsLastSibling();
-        backButton.SetActive(false);
 
+        index = -1;
+
+        if (pages.Count > 0 && pages[0] != null)
+            pages[0].SetAsLastSibling();
+
+        if (backButton != null) backButton.SetActive(false);
+        if (forwardButton != null) forwardButton.SetActive(true);
     }
 
     public void RotateForward()
     {
-        Debug.Log("RotateForward");
-        if (rotate == true) { return; }
-        index++;
-        float angle = 180; //in order to rotate the page forward, you need to set the rotation by 180 degrees around the y axis
-        ForwardButtonActions();
-        pages[index].SetAsLastSibling();
-        StartCoroutine(Rotate(angle, true));
+        if (rotate || index + 1 >= pages.Count) return;
 
+        index++;
+        float angle = 180f;
+
+        ForwardButtonActions();
+
+        if (pages[index] != null)
+            pages[index].SetAsLastSibling();
+
+        StartCoroutine(Rotate(angle, true));
     }
 
     public void ForwardButtonActions()
     {
-        if (backButton.activeInHierarchy == false)
-        {
-            backButton.SetActive(true); //every time we turn the page forward, the back button should be activated
-        }
-        if (index == pages.Count - 1)
-        {
-            forwardButton.SetActive(false); //if the page is last then we turn off the forward button
-        }
+        if (backButton != null && !backButton.activeInHierarchy)
+            backButton.SetActive(true);
+
+        if (forwardButton != null && index == pages.Count - 1)
+            forwardButton.SetActive(false);
     }
 
     public void RotateBack()
     {
-        Debug.Log("RotateBack");
-        if (rotate == true) { return; }
-        float angle = 0; //in order to rotate the page back, you need to set the rotation to 0 degrees around the y axis
-        pages[index].SetAsLastSibling();
+        if (rotate || index < 0) return;
+
+        float angle = 0f;
+
+        if (pages[index] != null)
+            pages[index].SetAsLastSibling();
+
         BackButtonActions();
+
         StartCoroutine(Rotate(angle, false));
     }
 
     public void BackButtonActions()
     {
-        if (forwardButton.activeInHierarchy == false)
-        {
-            forwardButton.SetActive(true); //every time we turn the page back, the forward button should be activated
-        }
-        if (index - 1 == -1)
-        {
-            backButton.SetActive(false); //if the page is first then we turn off the back button
-        }
+        if (forwardButton != null && !forwardButton.activeInHierarchy)
+            forwardButton.SetActive(true);
+
+        if (index - 1 < 0 && backButton != null)
+            backButton.SetActive(false);
     }
 
-    IEnumerator Rotate(float angle, bool forward)
+    private IEnumerator Rotate(float angle, bool forward)
     {
+        rotate = true;
+        Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
         float value = 0f;
+
         while (true)
         {
-            rotate = true;
-            Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
             value += Time.deltaTime * pageSpeed;
-            pages[index].rotation = Quaternion.Slerp(pages[index].rotation, targetRotation, value); //smoothly turn the page
-            float angle1 = Quaternion.Angle(pages[index].rotation, targetRotation); //calculate the angle between the given angle of rotation and the current angle of rotation
+
+            if (pages[index] != null)
+                pages[index].rotation = Quaternion.Slerp(pages[index].rotation, targetRotation, value);
+
+            float angle1 = Quaternion.Angle(pages[index].rotation, targetRotation);
             if (angle1 < 0.1f)
             {
-                if (forward == false)
-                {
+                if (!forward)
                     index--;
-                }
+
                 rotate = false;
-                break;
-
+                yield break;
             }
-            yield return null;
 
+            yield return null;
         }
     }
-
-
-
 }
