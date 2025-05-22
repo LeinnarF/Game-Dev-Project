@@ -19,7 +19,7 @@ public class ObjectSpawner : MonoBehaviour
 
     void Awake()
     {
-        // Ensure only one instance exists
+        // Singleton pattern to persist only one ObjectSpawner
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -27,46 +27,53 @@ public class ObjectSpawner : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Make ObjectSpawner persistent
-    }
+        DontDestroyOnLoad(gameObject);
 
-    void Start()
-    {
-        // Spawn PersistentObject if not already present
-        persistentObject = GameObject.Find(uniqueObjectName);
-        if (persistentObject == null && prefabToSpawn != null)
+        // Spawn PersistentObject if not already in the scene
+        if (GameObject.Find(uniqueObjectName) == null && prefabToSpawn != null)
         {
             persistentObject = Instantiate(prefabToSpawn);
             persistentObject.name = uniqueObjectName;
             DontDestroyOnLoad(persistentObject);
         }
+        else
+        {
+            persistentObject = GameObject.Find(uniqueObjectName);
+        }
 
-        // Spawn PersistentObject2 if not already present
-        persistentObject2 = GameObject.Find(uniqueObjectName2);
-        if (persistentObject2 == null && prefabToSpawn2 != null)
+        // Spawn PersistentObject2 (Canvas) if not already in the scene
+        if (GameObject.Find(uniqueObjectName2) == null && prefabToSpawn2 != null)
         {
             persistentObject2 = Instantiate(prefabToSpawn2);
             persistentObject2.name = uniqueObjectName2;
             DontDestroyOnLoad(persistentObject2);
             persistentObject2.SetActive(false); // Start disabled
         }
+        else
+        {
+            persistentObject2 = GameObject.Find(uniqueObjectName2);
+        }
     }
 
     void Update()
     {
-        // Only toggle if neither Camera nor Inventory is active
+        // Recover lost reference after scene change
+        if (persistentObject2 == null)
+        {
+            persistentObject2 = GameObject.Find(uniqueObjectName2);
+        }
+
+        // Only toggle if neither CameraOverlay nor Inventory is active
         GameObject cameraUI = GameObject.Find("CameraOverlay");
         GameObject inventoryUI = GameObject.Find("Inventory");
+
         bool isBlocked = (cameraUI != null && cameraUI.activeInHierarchy) ||
                          (inventoryUI != null && inventoryUI.activeInHierarchy);
 
-        if (Input.GetKeyDown(KeyCode.B) && !isBlocked)
+        if (Input.GetKeyDown(KeyCode.B) && !isBlocked && persistentObject2 != null)
         {
-            if (persistentObject2 != null)
-            {
-                isActive = !isActive;
-                persistentObject2.SetActive(isActive);
-            }
+            isActive = !isActive;
+            persistentObject2.SetActive(isActive);
         }
     }
 }
