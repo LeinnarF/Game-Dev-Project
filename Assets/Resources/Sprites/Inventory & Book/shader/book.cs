@@ -24,22 +24,16 @@ public class Book : MonoBehaviour
     {
         for (int i = 0; i < pages.Count; i++)
         {
-            float angle = i < currentPageIndex ? 180f : 0f;
-            pages[i].rotation = Quaternion.Euler(0, angle, 0);
-            pages[i].SetSiblingIndex(i);
+            float targetAngle = i < currentPageIndex ? 180f : 0f;
+            pages[i].localRotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
-
-        if (currentPageIndex < pages.Count)
-            pages[currentPageIndex].SetAsLastSibling();
     }
 
     public void NavigateForward()
     {
         if (CanTurnPageForward() && !isRotating)
         {
-            if (rotationCoroutine != null)
-                StopCoroutine(rotationCoroutine);
-
+            if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
             rotationCoroutine = StartCoroutine(RotatePage(currentPageIndex, true));
         }
     }
@@ -48,9 +42,7 @@ public class Book : MonoBehaviour
     {
         if (CanTurnPageBackward() && !isRotating)
         {
-            if (rotationCoroutine != null)
-                StopCoroutine(rotationCoroutine);
-
+            if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
             rotationCoroutine = StartCoroutine(RotatePage(currentPageIndex - 1, false));
         }
     }
@@ -64,59 +56,72 @@ public class Book : MonoBehaviour
         }
 
         isRotating = true;
-        Transform page = pages[pageIndex];
-        float startAngle = forward ? 0 : 180;
-        float endAngle = forward ? 180 : 0;
 
+        Transform page = pages[pageIndex];
+
+        // Bring the current page to front so it flips above others
         page.SetAsLastSibling();
 
-        float t = 0;
-        while (t < 1f)
+        float startY = forward ? 0f : 180f;
+        float endY = forward ? 180f : 0f;
+
+        Quaternion startRotation = Quaternion.Euler(0f, startY, 0f);
+        Quaternion endRotation = Quaternion.Euler(0f, endY, 0f);
+
+        float elapsed = 0f;
+
+        while (elapsed < pageSpeed)
         {
-            t += Time.deltaTime * pageSpeed;
-            float angle = Mathf.LerpAngle(startAngle, endAngle, t);
-            page.rotation = Quaternion.Euler(0, angle, 0);
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / pageSpeed);
+            page.localRotation = Quaternion.Lerp(startRotation, endRotation, t);
             yield return null;
         }
 
+        page.localRotation = endRotation;
+
         currentPageIndex += forward ? 1 : -1;
-        SetAllPageRotations(); // Re-apply correct rotations for all pages
+        currentPageIndex = Mathf.Clamp(currentPageIndex, 0, pages.Count);
+
+        isRotating = false;
+        rotationCoroutine = null;
 
         UpdateButtonStates();
-        isRotating = false;
 
         PlayerPrefs.SetInt("BookPageIndex", currentPageIndex);
         PlayerPrefs.Save();
     }
 
-    private bool CanTurnPageForward()
+    private bool CanTurnPageForward() => currentPageIndex < pages.Count;
+
+    private bool CanTurnPageBackward() => currentPageIndex > 0;
+
+    public int PagesRemainingForward() => pages.Count - currentPageIndex;
+
+    public int PagesRemainingBackward() => currentPageIndex;
+
+    public void ForceCloseBook()
     {
-        return currentPageIndex < pages.Count;
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
+        isRotating = false;
+        SetAllPageRotations();
     }
 
-    private bool CanTurnPageBackward()
-    {
-        return currentPageIndex > 0;
-    }
+    private void OnDisable() => ForceCloseBook();
 
-    public int PagesRemainingForward()
+    private void OnDestroy()
     {
-        return pages.Count - currentPageIndex;
-    }
-
-    public int PagesRemainingBackward()
-    {
-        return currentPageIndex;
+        ForceCloseBook();
+        PlayerPrefs.Save();
     }
 
     private void UpdateButtonStates()
     {
-        backButton.SetActive(CanTurnPageBackward());
-        forwardButton.SetActive(CanTurnPageForward());
-    }
-
-    private void OnDestroy()
-    {
-        PlayerPrefs.Save();
+        backButton?.SetActive(CanTurnPageBackward());
+        forwardButton?.SetActive(CanTurnPageForward());
     }
 }
