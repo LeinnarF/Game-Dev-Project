@@ -460,7 +460,7 @@ MonoBehaviour:
   LampLight: {fileID: 1752681943414910540}
   timeText: {fileID: 4889086144343878627}
   dayText: {fileID: 8961684523814160884}
-  realMinutesPerGameDay: 1
+  realMinutesPerGameDay: 15
 --- !u!1 &8453472457977128403
 GameObject:
   m_ObjectHideFlags: 0
