@@ -2,25 +2,85 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    public GameObject prefabToSpawn;
-    public string uniqueObjectName = "PersistentObject"; // optional: assign a name for identification
+    [Header("Prefabs")]
+    public GameObject prefabToSpawn;     // For PersistentObject
+    public GameObject prefabToSpawn2;    // For PersistentObject2 (Canvas)
 
-    void Start()
+    [Header("Unique Object Names")]
+    public string uniqueObjectName = "PersistentObject";
+    public string uniqueObjectName2 = "PersistentObject2";
+
+    private static GameObject persistentObject;
+    private static GameObject persistentObject2;
+
+    private static ObjectSpawner instance;   
+
+    private bool isActive = false;
+
+    void Awake()
     {
-        // Look for existing object by name
-        GameObject existing = GameObject.Find(uniqueObjectName);
-
-        if (existing == null)
+        // Singleton pattern to prevent multiple ObjectSpawner instances
+        if (instance != null && instance != this)
         {
-            // Spawn the prefab
-            GameObject newObject = Instantiate(prefabToSpawn);
-            newObject.name = uniqueObjectName; // give it a unique name
-
-            DontDestroyOnLoad(newObject); // make it persist
+            Destroy(gameObject);
+            return;
         }
-        else
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Handle PersistentObject
+        if (persistentObject == null)
         {
-            Debug.Log("Object already exists. Skipping spawn.");
+            persistentObject = GameObject.Find(uniqueObjectName);
+            if (persistentObject == null && prefabToSpawn != null)
+            {
+                persistentObject = Instantiate(prefabToSpawn);
+                persistentObject.name = uniqueObjectName;
+            }
+            DontDestroyOnLoad(persistentObject);
+        }
+
+        // Handle PersistentObject2 (Canvas)
+        if (persistentObject2 == null)
+        {
+            persistentObject2 = GameObject.Find(uniqueObjectName2);
+            if (persistentObject2 == null && prefabToSpawn2 != null)
+            {
+                persistentObject2 = Instantiate(prefabToSpawn2);
+                persistentObject2.name = uniqueObjectName2;
+                persistentObject2.SetActive(false); // Start disabled
+            }
+            DontDestroyOnLoad(persistentObject2);
+        }
+    }
+
+    void Update()
+    {
+        // Re-find in case references are lost (should rarely happen)
+        if (persistentObject2 == null)
+        {
+            persistentObject2 = GameObject.Find(uniqueObjectName2);
+        }
+
+        // Debug log to check if persistentObject2 is found
+        if (persistentObject2 == null)
+        {
+            Debug.LogWarning("PersistentObject2 not found!");
+            return; // Exit if persistentObject2 is not found
+        }
+
+        // Block toggle if UI overlays are open
+        GameObject cameraUI = GameObject.Find("CameraOverlay");
+        GameObject inventoryUI = GameObject.Find("InventoryMenu");
+
+        bool isBlocked = (cameraUI != null && cameraUI.activeInHierarchy) || (inventoryUI != null && inventoryUI.activeInHierarchy);
+
+        // Debug log to check if the input is being registered
+        if (Input.GetKeyDown(KeyCode.B) && !isBlocked)
+        {
+            Debug.Log("B key pressed. Toggling PersistentObject2.");
+            isActive = !isActive;
+            persistentObject2.SetActive(isActive);
         }
     }
 }

@@ -15,23 +15,19 @@ public class LightIntensityController : MonoBehaviour
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI dayText;
 
-    // ✅ CONFIGURATION (change only this value)
     [Header("Main Time Setting")]
-    public int realMinutesPerGameDay = 24; // << CHANGE THIS to control everything!
+    public int realMinutesPerGameDay = 24;
 
-    // ✅ Auto-calculated (do not change manually)
     private float currentTime = 6f;
     private int currentDay = 1;
     private float timeSpeed;
-    private float intensityChangeRate;
-    private float DelayTime;
 
-    private float targetIntensity = 1f;
+    private float maxIntensity = 1f;
     private float minIntensity = 0f;
-    private bool increasing = true;
-    private bool isPaused = false;
+    private float noonIntensity = 1.5f;
+    private float midnightIntensity = 0.5f;
 
-    public void Awake()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -43,76 +39,31 @@ public class LightIntensityController : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-public void Sleep()
-{
-    // Set time to 6:00 AM (or any morning time you prefer)
-    currentTime = 6f;
 
-    // Increase the day
-    currentDay++;
-
-    // Set light intensities for morning
-    lightSource.intensity = 1f;
-    NightSource.intensity = 0f;
-    LampLight.intensity = 0f;
-
-    // Ensure the lighting state is correct
-    StartCoroutine(PauseCoroutine());
-
-    // Update UI immediately
+    public void Sleep()
+    {
+        currentTime = 6f;
+        currentDay++;
+        lightSource.intensity = maxIntensity;
+        NightSource.intensity = minIntensity;
+        LampLight.intensity = minIntensity;
         UpdateGameTime();
+        Debug.Log("Player slept. A new day has begun!");
+    }
 
-    Debug.Log("Player slept. A new day has begun!");
-}
     void Start()
     {
         if (lightSource == null)
             lightSource = GetComponent<Light2D>();
 
-        // ✅ Auto-calculate values
         float totalRealSeconds = realMinutesPerGameDay * 60f;
-        timeSpeed = 1440f / totalRealSeconds; // 1440 = total in-game minutes per day
-        intensityChangeRate = 1f / (totalRealSeconds / 4f); // 1/4 of the day for rising and setting
-        DelayTime = totalRealSeconds / 4f; // pause during full day or night
+        timeSpeed = 1440f / totalRealSeconds; // 1440 in-game minutes per day
     }
 
     void Update()
     {
         UpdateGameTime();
-
-        if (!isPaused)
-        {
-            if (increasing)
-            {
-                lightSource.intensity += intensityChangeRate * Time.deltaTime;
-                NightSource.intensity -= intensityChangeRate * Time.deltaTime;
-                LampLight.intensity -= intensityChangeRate * Time.deltaTime;
-
-                if (lightSource.intensity >= targetIntensity && NightSource.intensity <= minIntensity)
-                {
-                    lightSource.intensity = targetIntensity;
-                    NightSource.intensity = minIntensity;
-                    LampLight.intensity = minIntensity;
-                    increasing = false;
-                    StartCoroutine(PauseCoroutine());
-                }
-            }
-            else
-            {
-                lightSource.intensity -= intensityChangeRate * Time.deltaTime;
-                NightSource.intensity += intensityChangeRate * Time.deltaTime;
-                LampLight.intensity += intensityChangeRate * Time.deltaTime;
-
-                if (lightSource.intensity <= minIntensity && NightSource.intensity >= targetIntensity)
-                {
-                    lightSource.intensity = minIntensity;
-                    NightSource.intensity = targetIntensity;
-                    LampLight.intensity = targetIntensity;
-                    increasing = true;
-                    StartCoroutine(PauseCoroutine());
-                }
-            }
-        }
+        UpdateLighting();
     }
 
     void UpdateGameTime()
@@ -139,10 +90,50 @@ public void Sleep()
             dayText.text = $"Day {currentDay}";
     }
 
-    private IEnumerator PauseCoroutine()
+    void UpdateLighting()
     {
-        isPaused = true;
-        yield return new WaitForSeconds(DelayTime);
-        isPaused = false;
+        float t = currentTime;
+
+        // Sunrise: 4:40 - 6:30 AM
+        if (t >= 4.5f && t < 6.5f)
+        {
+            float progress = Mathf.InverseLerp(4.5f, 6.5f, t);
+            lightSource.intensity = Mathf.Lerp(minIntensity, maxIntensity, progress);
+            NightSource.intensity = Mathf.Lerp(midnightIntensity, minIntensity, progress);
+            LampLight.intensity = Mathf.Lerp(maxIntensity, minIntensity, progress);
+        }
+        // Morning: 6:00 - 12:00 PM (intensity at noon)
+        else if (t >= 6.5f && t < 12f)
+        {
+            float progress = Mathf.InverseLerp(6.5f, 12f, t);
+            lightSource.intensity = Mathf.Lerp(maxIntensity, noonIntensity, progress);
+            NightSource.intensity = minIntensity;
+            LampLight.intensity = minIntensity;
+        }
+        // Midday Hold: 12:00 - 4:00 PM
+        else if (t >= 12f && t < 16f)
+        {
+            float progress = Mathf.InverseLerp(12f, 16f, t);
+            lightSource.intensity = Mathf.Lerp(noonIntensity, maxIntensity, progress);
+            NightSource.intensity = minIntensity;
+            LampLight.intensity = minIntensity;
+        }
+        // Sunset: 2:00 PM - 8:00 PM
+        else if (t >= 16f && t < 20f)
+        {
+            float progress = Mathf.InverseLerp(16f, 20f, t);
+            NightSource.intensity = Mathf.Lerp(minIntensity, midnightIntensity, progress);
+            lightSource.intensity = Mathf.Lerp(maxIntensity, minIntensity, progress);
+            LampLight.intensity = Mathf.Lerp(minIntensity, maxIntensity, progress);
+        }
+        // Night: 8:00 PM - 4:30 AM
+        else
+        {
+            lightSource.intensity = minIntensity;
+            NightSource.intensity = midnightIntensity;
+            LampLight.intensity = maxIntensity;
+        }
+        
     }
 }
+// This script controls the light intensity based on the time of day in a game.

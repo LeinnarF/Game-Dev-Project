@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Kamera()
     {
-        if (Input.GetKeyDown(KeyCode.C)&& GameObject.Find("LogbookMenu") == null && GameObject.Find("InventoryMenu") == null)
+        if (Input.GetKeyDown(KeyCode.C)&& GameObject.Find("PersistentObject2") == null && GameObject.Find("InventoryMenu") == null)
         {
             isInCameraMode = !isInCameraMode;
             Debug.Log("Camera mode toggled: " + isInCameraMode);
