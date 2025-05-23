@@ -15,27 +15,22 @@ public class Book : MonoBehaviour
 
     private void Start()
     {
-        InitializeBook();
+        currentPageIndex = Mathf.Clamp(PlayerPrefs.GetInt("BookPageIndex", 0), 0, pages.Count);
+        SetAllPageRotations();
         UpdateButtonStates();
     }
 
-    private void InitializeBook()
+    private void SetAllPageRotations()
     {
-        if (pages == null || pages.Count == 0)
-        {
-            Debug.LogError("No pages assigned in the book!");
-            return;
-        }
-
-        currentPageIndex = Mathf.Clamp(PlayerPrefs.GetInt("BookPageIndex", 0), 0, pages.Count - 1);
-
         for (int i = 0; i < pages.Count; i++)
         {
-            pages[i].rotation = Quaternion.Euler(0, i <= currentPageIndex ? 0 : 180f, 0);
+            float angle = i < currentPageIndex ? 180f : 0f;
+            pages[i].rotation = Quaternion.Euler(0, angle, 0);
             pages[i].SetSiblingIndex(i);
         }
 
-        pages[currentPageIndex].SetAsLastSibling();
+        if (currentPageIndex < pages.Count)
+            pages[currentPageIndex].SetAsLastSibling();
     }
 
     public void NavigateForward()
@@ -84,8 +79,8 @@ public class Book : MonoBehaviour
             yield return null;
         }
 
-        // Update page index
         currentPageIndex += forward ? 1 : -1;
+        SetAllPageRotations(); // Re-apply correct rotations for all pages
 
         UpdateButtonStates();
         isRotating = false;
@@ -96,7 +91,7 @@ public class Book : MonoBehaviour
 
     private bool CanTurnPageForward()
     {
-        return currentPageIndex < pages.Count - 1;
+        return currentPageIndex < pages.Count;
     }
 
     private bool CanTurnPageBackward()
@@ -106,7 +101,7 @@ public class Book : MonoBehaviour
 
     public int PagesRemainingForward()
     {
-        return pages.Count - 1 - currentPageIndex;
+        return pages.Count - currentPageIndex;
     }
 
     public int PagesRemainingBackward()
