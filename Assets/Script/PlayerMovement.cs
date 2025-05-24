@@ -1,12 +1,12 @@
-using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody2D rb;
-    Animator anim;
-    SpriteRenderer sr;
+    private Rigidbody2D rb;
+    private Animator anim;
+    private SpriteRenderer sr;
+
     public SpriteRenderer cmeraSprite;
     public GameObject cameraOverlay;
 
@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private float x;
     private float y;
     private Vector2 input;
+    private Vector2 lastMoveDirection = Vector2.down;
+
     private bool isMoving;
 
     public bool isFishing = false;
@@ -25,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private bool fishCaught = false;
     public bool isInCameraMode = false;
 
-    // Adjustable raycast distance
     public float fishingRayDistance = 1.5f;
 
     void Start()
@@ -37,13 +38,64 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Movement();
+        HandleInput();
         Animate();
         Kamera();
         CheckForFishingSpot();
+
+        // Cancel fishing if player starts moving
+        if (isFishing && input.magnitude > 0.1f)
+        {
+            StopFishing();
+        }
     }
 
-    private void Animate()
+    void FixedUpdate()
+    {
+        Move();
+    }
+
+    void HandleInput()
+    {
+        speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : 2f;
+
+        if (!isFishing)
+        {
+            x = Input.GetAxisRaw("Horizontal");
+            y = Input.GetAxisRaw("Vertical");
+
+            if (x != 0) y = 0; // Prevent diagonal movement
+            input = new Vector2(x, y);
+
+            if (input != Vector2.zero)
+                lastMoveDirection = input;
+        }
+
+        if (isInCameraMode)
+        {
+            x = 0;
+            y = 0;
+            input = Vector2.zero;
+            return;
+        }
+
+        if (isInFishingSpot && Input.GetMouseButtonDown(0))
+        {
+            ToggleFishing();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
+    void Move()
+    {
+        rb.linearVelocity = input * speed;
+    }
+
+    void Animate()
     {
         isMoving = input.magnitude > 0.1f;
 
@@ -60,81 +112,6 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("isMoving", false);
     }
 
-    void Movement()
-    {
-        getInput();
-        rb.linearVelocity = input * speed;
-    }
-
-    void getInput()
-    {
-        speed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? sprintSpeed : 2f;
-
-        if (!isFishing)
-        {
-            x = Input.GetAxisRaw("Horizontal");
-            y = Input.GetAxisRaw("Vertical");
-        }
-
-        if (isInCameraMode)
-        {
-            x = 0;
-            y = 0;
-            input = Vector2.zero;
-            return;
-        }
-
-        // Prevent diagonal movement
-        if (x != 0) y = 0;
-        input = new Vector2(x, y);
-
-        if (isInFishingSpot && Input.GetMouseButtonDown(0))
-        {
-            isFishing = !isFishing;
-
-            if (isFishing)
-            {
-                Debug.Log("Fishing started");
-                if (fishingCoroutine == null)
-                    fishingCoroutine = StartCoroutine(FishingTimer());
-            }
-            else
-            {
-                Debug.Log("Fishing stopped");
-                if (fishingCoroutine != null)
-                {
-                    StopCoroutine(fishingCoroutine);
-                    fishingCoroutine = null;
-                    Debug.Log("Fishing cancelled");
-                }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-            Debug.Log("Game Closed");
-        }
-    }
-
-    IEnumerator FishingTimer()
-    {
-        int waitTime = UnityEngine.Random.Range(3, 21);
-        Debug.Log("Waiting for " + waitTime + " seconds to catch fish...");
-
-        yield return new WaitForSeconds(waitTime);
-
-        if (currentFishingSpot != null && isFishing)
-        {
-            string caught = currentFishingSpot.TryCatchFish();
-            Debug.Log("You caught: " + caught);
-            fishCaught = true;
-
-            isFishing = false;
-            fishingCoroutine = null;
-        }
-    }
-
     void Kamera()
     {
         if (Input.GetKeyDown(KeyCode.C) &&
@@ -142,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
             GameObject.Find("InventoryMenu") == null)
         {
             isInCameraMode = !isInCameraMode;
-            Debug.Log("Camera mode toggled: " + isInCameraMode);
             anim.SetBool("Camera", isInCameraMode);
 
             if (isInCameraMode)
@@ -158,19 +134,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // ✅ Always casts a blue ray downward (Vector2.down) to detect fishing spot
     void CheckForFishingSpot()
     {
-        Vector2 direction = Vector2.down;
-        Vector3 origin = transform.position;
+        Vector2 direction = lastMoveDirection == Vector2.zero ? Vector2.down : lastMoveDirection;
+        float offsetDistance = 1.5f;
+        Vector2 origin = (Vector2)transform.position + direction * offsetDistance;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, fishingRayDistance, LayerMask.GetMask("Default"));
+        Color rayColor = Color.blue;
 
         if (hit.collider != null && hit.collider.CompareTag("FishingSpot"))
         {
-            Debug.Log("Fishing spot detected: " + hit.collider.name);
             isInFishingSpot = true;
             currentFishingSpot = hit.collider.GetComponent<FishingSpot>();
+            rayColor = Color.cyan;
         }
         else
         {
@@ -178,7 +155,47 @@ public class PlayerMovement : MonoBehaviour
             currentFishingSpot = null;
         }
 
-        // Show ray in Scene view as BLUE
-        Debug.DrawRay(origin, direction * fishingRayDistance, Color.blue);
+        Debug.DrawRay(origin, direction * fishingRayDistance, rayColor);
+    }
+
+    void ToggleFishing()
+    {
+        isFishing = !isFishing;
+
+        if (isFishing)
+        {
+            if (fishingCoroutine == null)
+                fishingCoroutine = StartCoroutine(FishingTimer());
+        }
+        else
+        {
+            StopFishing();
+        }
+    }
+
+    void StopFishing()
+    {
+        isFishing = false;
+
+        if (fishingCoroutine != null)
+        {
+            StopCoroutine(fishingCoroutine);
+            fishingCoroutine = null;
+        }
+    }
+
+    IEnumerator FishingTimer()
+    {
+        int waitTime = Random.Range(3, 21);
+        yield return new WaitForSeconds(waitTime);
+
+        if (currentFishingSpot != null && isFishing)
+        {
+            string caught = currentFishingSpot.TryCatchFish();
+            fishCaught = true;
+
+            isFishing = false;
+            fishingCoroutine = null;
+        }
     }
 }

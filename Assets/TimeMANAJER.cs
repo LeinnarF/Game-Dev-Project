@@ -62,13 +62,6 @@ public class ObjectSpawner : MonoBehaviour
             persistentObject2 = GameObject.Find(uniqueObjectName2);
         }
 
-        // Debug log to check if persistentObject2 is found
-        if (persistentObject2 == null)
-        {
-            Debug.LogWarning("PersistentObject2 not found!");
-            return; // Exit if persistentObject2 is not found
-        }
-
         // Block toggle if UI overlays are open
         GameObject cameraUI = GameObject.Find("CameraOverlay");
         GameObject inventoryUI = GameObject.Find("InventoryMenu");
