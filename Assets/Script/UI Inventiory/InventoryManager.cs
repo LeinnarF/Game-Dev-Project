@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -8,6 +9,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject InventoryMenu;
     private bool menuActivated;
     public ItemSlot[] itemSlot;
+    public ItemSO[] itemSOs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,11 +35,23 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public bool UseItem(string itemName)
+{
+    for (int i = 0; i < itemSOs.Length; i++)
+    {
+        if (itemSOs[i].itemName == itemName)
+        {
+            return itemSOs[i].UseItem();
+        }
+    }
+    return false; // Correct placement
+}
+
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         for (int i = 0; i < itemSlot.Length; i++)
         {
-            if (itemSlot[i].isFull == false && itemSlot[i].itemName == itemName || itemSlot[i].quantity == 0)
+            if ((itemSlot[i].itemName == itemName && !itemSlot[i].isFull) || itemSlot[i].quantity == 0)
             {
                 int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, itemDescription);
                 if (leftOverItems > 0)
