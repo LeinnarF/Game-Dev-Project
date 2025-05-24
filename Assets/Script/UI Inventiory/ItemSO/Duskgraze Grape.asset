@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4503abbbc01462f41af1c4f2f20d6425, type: 3}
   m_Name: Duskgraze Grape
   m_EditorClassIdentifier: 
-  itemName: 'Duskgraze Grape '
+  itemName: Duskgraze Grape
   statToChange: 0
   amountToChangeStat: 30
