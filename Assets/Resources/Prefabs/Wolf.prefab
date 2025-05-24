@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5842290330110671874}
   - component: {fileID: 331536686163733537}
   - component: {fileID: 5111983693414157541}
-  - component: {fileID: 7318117339680946630}
   - component: {fileID: 5017936977223473709}
+  - component: {fileID: 2860709555775676511}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Animal
@@ -165,21 +165,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.1608082, y: 0.7136445}
   m_EdgeRadius: 0
---- !u!114 &7318117339680946630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3222612683146484411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d223a5ff4768ab24e97920011ff24ce2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementDelay: 8
-  dedTimer: 60
-  moveSpeed: 3
 --- !u!95 &5017936977223473709
 Animator:
   serializedVersion: 7
@@ -202,6 +187,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2860709555775676511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3222612683146484411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70354c121196b56458ded6ffc9e44691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementDelay: 5
+  dedTimer: 80
+  moveSpeed: 3
 --- !u!1 &8363036724883697045
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7158882643655606659}
   - component: {fileID: 8147607085552720967}
   - component: {fileID: 6848964261908376462}
-  - component: {fileID: 1692449588220300834}
   - component: {fileID: 5104012222976013276}
   - component: {fileID: 7421434642270648351}
+  - component: {fileID: -5334771895581757333}
   m_Layer: 0
   m_Name: Daddy_Bear
   m_TagString: Animal
@@ -138,21 +138,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.2895525, y: 0.7681463}
   m_EdgeRadius: 0
---- !u!114 &1692449588220300834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3575991878321416212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d223a5ff4768ab24e97920011ff24ce2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementDelay: 13
-  dedTimer: 100
-  moveSpeed: 0.8
 --- !u!50 &5104012222976013276
 Rigidbody2D:
   serializedVersion: 5
@@ -202,6 +187,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-5334771895581757333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3575991878321416212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70354c121196b56458ded6ffc9e44691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementDelay: 10
+  dedTimer: 120
+  moveSpeed: 3
 --- !u!1 &8550785958729613788
 GameObject:
   m_ObjectHideFlags: 0
