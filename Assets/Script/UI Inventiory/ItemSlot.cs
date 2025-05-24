@@ -31,18 +31,39 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public TMP_Text ItemDescriptionNameText;
     public TMP_Text ItemDescriptionText;
 
-
+    public GameObject InventoryMenu;
 
     public GameObject selectedShader;
     public bool thisItemSelected;
 
     private InventoryManager inventoryManager;
 
-    private void Start()
+     void Start()
     {
-        inventoryManager = GameObject.Find("Inventory").GetComponent<InventoryManager>();
+        StartCoroutine(FindUIElements());
     }
 
+    IEnumerator FindUIElements()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        // Find Inventory GameObject (parent of InventoryMenu with tag "Inventory")
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "PersistentObject3")
+            {
+                Transform parent = obj.transform.parent;
+                if (parent != null)
+                {
+                    InventoryMenu = parent.gameObject;
+                    Debug.Log("Inventory found: " + InventoryMenu.name);
+                    break;
+                }
+            }
+        }
+    }
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         //check to see if the slot is already full
@@ -50,7 +71,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             return quantity;
 
         if (this.itemName != "" && this.itemName != itemName)
-        return quantity;
+            return quantity;
 
         //Update Name
         this.itemName = itemName;
@@ -73,7 +94,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             //Return the LeftOvers
             int extraItems = this.quantity - maxNumberOfItems;
             this.quantity = maxNumberOfItems;
-            
+
             return extraItems;
         }
 

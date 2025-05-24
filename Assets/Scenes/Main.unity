@@ -7151,6 +7151,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1993964654}
     - target: {fileID: 2904600842327204039, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: cameraOverlay
+      value: 
+      objectReference: {fileID: 1493468356}
+    - target: {fileID: 2904600842327204039, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: popupAnimator
       value: 
       objectReference: {fileID: 576380711409875949}

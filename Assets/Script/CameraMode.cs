@@ -40,9 +40,9 @@ public class CameraMode : MonoBehaviour
     {
         player = FindFirstObjectByType<PlayerMovement>();
         mainCam = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
+
         if (CameraOverlay != null)
         {
-            // Try to get Animator even if CameraOverlay is inactive
             cameraOverlayAnimator = CameraOverlayPanel.GetComponent<Animator>();
             if (cameraOverlayAnimator == null)
             {
@@ -63,7 +63,14 @@ public class CameraMode : MonoBehaviour
         {
             if (CameraOverlay != null)
             {
-                CameraOverlay.SetActive(!CameraOverlay.activeSelf);
+                bool isActive = !CameraOverlay.activeSelf;
+                CameraOverlay.SetActive(isActive);
+
+                if (player != null)
+                    player.isInCameraMode = isActive;
+
+                if (isActive)
+                    SnapToPlayer();
             }
         }
 
@@ -80,15 +87,15 @@ public class CameraMode : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                cameraOverlayAnimator.SetTrigger("Camera");
-                bool capturedAny = TryCaptureAnimal();
+                if (cameraOverlayAnimator != null)
+                {
+                    cameraOverlayAnimator.SetTrigger("Camera");
+                }
 
+                bool capturedAny = TryCaptureAnimal();
                 if (capturedAny)
                 {
-                    if (cameraOverlayAnimator != null)
-                    {
-                        cameraOverlayAnimator.SetTrigger("Camera");
-                    }
+                    Debug.Log("Captured new animal(s).");
                 }
             }
         }
@@ -132,7 +139,6 @@ public class CameraMode : MonoBehaviour
         }
     }
 
-    // Returns true if at least one new animal captured this call
     bool TryCaptureAnimal()
     {
         GameObject[] allAnimals = GameObject.FindGameObjectsWithTag("Animal");
@@ -238,4 +244,3 @@ public class CameraMode : MonoBehaviour
         }
     }
 }
-

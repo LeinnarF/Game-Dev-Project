@@ -12,7 +12,7 @@ public class RandomSpawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("OnTriggerEnter2D called with: " + other.name + ", Tag: " + other.tag);
+        
 
         if (other.CompareTag("Player"))
         {
@@ -25,26 +25,25 @@ public class RandomSpawner : MonoBehaviour
                 SpawnAnimal();
                 // Or use Invoke if you want a delay:
                 // Invoke(nameof(SpawnAnimal), SpawnTime);
-                Debug.Log("Player entered aura. Animal will spawn.");
+              
             }
             else
             {
                 CancelInvoke(nameof(DespawnAnimal));
-                Debug.Log("Player re-entered aura. Despawn canceled.");
+                
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("OnTriggerExit2D called with: " + other.name + ", Tag: " + other.tag);
+       
 
         if (other.CompareTag("Player"))
         {
             playerInside = false;
             if (hasSpawned && animalInstance != null)
             {
-                Debug.Log("Player exited aura. Despawning in " + DespawnDelay + "s.");
                 Invoke(nameof(DespawnAnimal), DespawnDelay);
             }
         }
@@ -54,14 +53,14 @@ public class RandomSpawner : MonoBehaviour
     {
         if (AnimalPrefab == null)
         {
-            Debug.LogError("AnimalPrefab not assigned!");
+        
             return;
         }
 
         if (animalInstance == null)
         {
             animalInstance = Instantiate(AnimalPrefab, transform.position, Quaternion.identity);
-            Debug.Log("AnimalPrefab spawned!");
+       
         }
     }
 
@@ -72,7 +71,7 @@ public class RandomSpawner : MonoBehaviour
             Destroy(animalInstance);
             animalInstance = null;
             hasSpawned = false;
-            Debug.Log("AnimalPrefab despawned after player left aura.");
+          
         }
     }
 }

@@ -18,22 +18,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown("Inventory") && menuActivated)
-        {
-            Time.timeScale = 1;
-            InventoryMenu.SetActive(false);
-            menuActivated = false;
-        }
 
-        else if (Input.GetButtonDown("Inventory") && !menuActivated && GameObject.Find("LogbookMenu") == null && GameObject.Find("CameraOverlay") == null)
-        {
-            Time.timeScale = 0;
-            InventoryMenu.SetActive(true);
-            menuActivated = true;
-        }
-    }
 
     public bool UseItem(string itemName)
 {

@@ -46,5 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 6697666778540259736, guid: 20b499de9c738eb4abf88f32629db819, type: 3}
   prefabToSpawn2: {fileID: 3453388302436934347, guid: 8f2bb4df60d080846b2b2639156736fc, type: 3}
+  prefabToSpawn3: {fileID: 7794795824346456748, guid: 83273248c87f713439b1340eb83b2278, type: 3}
   uniqueObjectName: PersistentObject
   uniqueObjectName2: PersistentObject2
+  uniqueObjectName3: PersistentObject3

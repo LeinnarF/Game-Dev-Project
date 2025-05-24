@@ -62,7 +62,7 @@ public class ObjectSpawner : MonoBehaviour
             if (persistentObject3 == null && prefabToSpawn3 != null)
             {
                 persistentObject3 = Instantiate(prefabToSpawn3);
-                persistentObject3.name = uniqueObjectName2;
+                persistentObject3.name = uniqueObjectName3;
                 persistentObject3.SetActive(false); // Start disabled
             }
             DontDestroyOnLoad(persistentObject3);
@@ -79,7 +79,7 @@ public class ObjectSpawner : MonoBehaviour
 
         // Block toggle if UI overlays are open
         GameObject cameraUI = GameObject.Find("CameraOverlay");
-        GameObject inventoryUI = GameObject.Find("InventoryMenu");
+        GameObject inventoryUI = GameObject.Find("PersistentObject3");
         GameObject logbookUI = GameObject.Find("PersistentObject2");
 
         bool isBlocked = (cameraUI != null && cameraUI.activeInHierarchy) || (inventoryUI != null && inventoryUI.activeInHierarchy);
@@ -107,9 +107,9 @@ public class ObjectSpawner : MonoBehaviour
         bool isBlocked1 = (cameraUI != null && cameraUI.activeInHierarchy) || (logbookUI != null && logbookUI.activeInHierarchy);
 
         // Debug log to check if the input is being registered
-        if (Input.GetKeyDown(KeyCode.E) && !isBlocked)
+        if (Input.GetKeyDown(KeyCode.E) && !isBlocked1)
         {
-            Debug.Log("E key pressed. Toggling PersistentObject2.");
+            Debug.Log("E key pressed. Toggling PersistentObject3.");
             isActive = !isActive;
             persistentObject3.SetActive(isActive);
         }else if (Input.GetKeyDown(KeyCode.E))
