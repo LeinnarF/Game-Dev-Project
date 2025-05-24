@@ -4,7 +4,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     [Header("Prefabs")]
     public GameObject prefabToSpawn;     // For PersistentObject
-    public GameObject prefabToSpawn2;    // For PersistentObject2 (Canvas)
+    public GameObject prefabToSpawn2;
 
     [Header("Unique Object Names")]
     public string uniqueObjectName = "PersistentObject";
@@ -74,6 +74,9 @@ public class ObjectSpawner : MonoBehaviour
             Debug.Log("B key pressed. Toggling PersistentObject2.");
             isActive = !isActive;
             persistentObject2.SetActive(isActive);
+        }else if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("B key pressed but toggling is blocked by UI.");
         }
     }
 }

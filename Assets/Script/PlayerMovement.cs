@@ -62,13 +62,19 @@ public class PlayerMovement : MonoBehaviour
     private Color uncommonColor = Color.green;
     private Color rareColor = new Color32(173, 216, 230, 255); // Light blue using Color32
 
-private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // Light Purple
+    private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // Light Purple
+    public Camera playerCamera; // Assign your player camera via Inspector or in code
+    public string targetTag = "YourTagHere"; // Replace with your object's tag to monitor
+    // Keep track of objects currently in view to avoid repetitive logs
+    private HashSet<GameObject> objectsInView = new HashSet<GameObject>();
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+         if (playerCamera == null)
+            playerCamera = Camera.main;
     }
 
     void Update()
@@ -255,7 +261,7 @@ private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // L
             selectedRarity = FishData.Rarity.Common;
         else if (roll < 0.75f)
             selectedRarity = FishData.Rarity.Uncommon;
-        else if (roll < 0.9f)
+        else if (roll < 0.99f)
             selectedRarity = FishData.Rarity.Rare;
         else
             selectedRarity = FishData.Rarity.Epic;

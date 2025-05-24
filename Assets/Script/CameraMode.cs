@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 public class CameraMode : MonoBehaviour
 {
+    public GameObject popUp; 
+    public GameObject AnimalPanel; // Inner Panel (lower left)
+    public Text txtWindow; // Legacy Text (Txt_window)
+    public Image imgWindow; // Image (Img_window)
+
     public float moveSpeed = 5f;
     private PlayerMovement player;
 
@@ -13,7 +18,10 @@ public class CameraMode : MonoBehaviour
 
     private Dictionary<string, (Image question, Image unknown)> animalImages = new();
     private HashSet<string> seenAnimals = new();
-    private HashSet<string> capturedAnimals = new();
+    private HashSet<string> capturedAnimals = new(); 
+    public Animator anim;
+    public Animator popupAnimator;
+    public GameObject CameraOverlay; // Camera overlay GameObject
 
     // Map animal names to image number suffix
     private readonly Dictionary<string, string> animalNameToImageSuffix = new()
@@ -29,6 +37,8 @@ public class CameraMode : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
+        popupAnimator = popUp.GetComponent<Animator>(); // Correctly assign the popup animator
         player = FindFirstObjectByType<PlayerMovement>();
         mainCam = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
         if (mainCam == null)
@@ -53,6 +63,22 @@ public class CameraMode : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 TryCaptureAnimal();
+                
+                // Activate the popup and play the animation
+                if (popupAnimator != null)
+                {
+                    popUp.SetActive(true); // Ensure the popup is active
+                    popupAnimator.SetTrigger("PlayPopUp");
+                }
+                
+                if (anim != null)
+                {
+                    CameraOverlay.SetActive(true); // Show the camera overlay
+                    anim.SetTrigger("CameraMode");
+                }else
+                {
+                    Debug.LogWarning("Animator not assigned or found.");
+                }
             }
         }
     }
@@ -92,6 +118,24 @@ public class CameraMode : MonoBehaviour
                         MakeImageTransparent(animalImages[animalName].question, $"question ({suffix})");
                 }
             }
+        }
+    }
+
+    public class AnimalData
+    {
+        public string AnimalName;
+        public Sprite AnimalSprite;
+    }
+
+    public List<AnimalData> AnimalList = new List<AnimalData>();
+
+    void ShowFishPopup(AnimalData animal)
+    {
+        if (txtWindow != null && imgWindow != null && AnimalPanel != null)
+        {
+            txtWindow.text = animal.AnimalName;
+            imgWindow.sprite = animal.AnimalSprite;
+            AnimalPanel.SetActive(true);
         }
     }
 
