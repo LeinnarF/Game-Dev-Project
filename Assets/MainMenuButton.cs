@@ -6,80 +6,121 @@ public class MainMenuButton : MonoBehaviour
     public static GameObject Inventory;
     public static GameObject persistentObject2;
     public static GameObject cameraOverlay;
+
     private bool isInventoryActive = false;
     private bool isLogbookActive = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Find the Inventory GameObject
-        Inventory = GameObject.Find("InventoryMenu");
-        // Find the persistent object
-        persistentObject2 = GameObject.Find("PersistentObject2");
-        // Find the CameraOverlay GameObject
-        cameraOverlay = GameObject.Find("Camera");
-        StartCoroutine(FindLogbookAndImages());
+        StartCoroutine(FindUIElements());
     }
-    IEnumerator FindLogbookAndImages()
+
+    IEnumerator FindUIElements()
     {
         yield return new WaitForSeconds(0.1f);
 
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        // Find Inventory GameObject (parent of InventoryMenu with tag "Inventory")
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "InventoryMenu" && obj.CompareTag("Inventory"))
+            {
+                Transform parent = obj.transform.parent;
+                if (parent != null)
+                {
+                    Inventory = parent.gameObject;
+                    Debug.Log("Inventory found: " + Inventory.name);
+                    break;
+                }
+            }
+        }
+
+        // Find PersistentObject2
         foreach (GameObject obj in allObjects)
         {
             if (obj.name == "PersistentObject2")
             {
                 persistentObject2 = obj;
+                Debug.Log("PersistentObject2 found.");
+                break;
+            }
+        }
+
+        // Find CameraOverlay
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "CameraOverlay")
+            {
+                cameraOverlay = obj;
+                Debug.Log("CameraOverlay found.");
                 break;
             }
         }
     }
+
     public void BackpackM()
     {
-        // Logic to open the backpack
         Debug.Log("Backpack button clicked.");
-        bool isBlockedBag = (cameraOverlay != null && cameraOverlay.activeInHierarchy) || (persistentObject2 != null && persistentObject2.activeInHierarchy);
+
+        bool isBlockedBag = (cameraOverlay != null && cameraOverlay.activeInHierarchy)
+                          || (persistentObject2 != null && persistentObject2.activeInHierarchy);
 
         if (!isBlockedBag)
         {
-            Debug.Log("Button key pressed. Toggling Inventory.");
             isInventoryActive = !isInventoryActive;
-            if (Inventory == null)
+
+            if (Inventory != null)
             {
                 Inventory.SetActive(isInventoryActive);
+                Debug.Log("Inventory toggled: " + isInventoryActive);
+            }
+            else
+            {
+                Debug.LogWarning("Inventory GameObject not found or not yet loaded.");
             }
         }
-    }
-
-    public void CameraM()
-    {
-        // Logic to open the camera
-        Debug.Log("Camera button clicked.");
-        // Add camera logic here if needed
+        else
+        {
+            Debug.Log("Backpack UI blocked by another UI.");
+        }
     }
 
     public void LogbookM()
     {
         Debug.Log("Logbook button clicked.");
-        bool isBlockedLogbook = (cameraOverlay != null && cameraOverlay.activeInHierarchy) || (Inventory != null && Inventory.activeInHierarchy);
+
+        bool isBlockedLogbook = (cameraOverlay != null && cameraOverlay.activeInHierarchy)
+                              || (Inventory != null && Inventory.activeInHierarchy);
 
         if (!isBlockedLogbook)
         {
-            Debug.Log("Button key pressed. Toggling PersistentObject2.");
             isLogbookActive = !isLogbookActive;
-            if (persistentObject2 == null)
+
+            if (persistentObject2 != null)
             {
-                Debug.LogWarning("PersistentObject2 found. Cannot toggle logbook.");
                 persistentObject2.SetActive(isLogbookActive);
+                Debug.Log("Logbook toggled: " + isLogbookActive);
             }
             else
-            { persistentObject2.SetActive(isLogbookActive);}
+            {
+                Debug.LogWarning("PersistentObject2 not found or not yet loaded.");
+            }
         }
+        else
+        {
+            Debug.Log("Logbook UI blocked by another UI.");
+        }
+    }
+
+    public void CameraM()
+    {
+        Debug.Log("Camera button clicked.");
+        // Add camera toggle logic here if needed
     }
 
     public void ChatM()
     {
-        // Logic to open the chat
         Debug.Log("Chat button clicked.");
         // Add chat logic here if needed
     }
