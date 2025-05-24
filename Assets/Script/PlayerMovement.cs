@@ -1,5 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class FishData
+{
+    public string fishName;
+    public Sprite fishSprite;
+    public Rarity rarity;
+
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic
+    }
+}
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,8 +44,24 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine fishingCoroutine;
     private bool fishCaught = false;
     public bool isInCameraMode = false;
+    public bool waitingForPopup = false;
 
     public float fishingRayDistance = 1.5f;
+
+    [Header("Fish UI Pop-up")]
+    public GameObject popUp;         // Root GameObject (Pop-up lowerleft)
+    public GameObject fishPanel;     // Inner Panel (lowerleft)
+    public Text txtWindow;           // Legacy Text (Txt_window)
+    public Image imgWindow;          // Image (Img_window)
+    public Animator popupAnimator;   // Animator on Pop-up lowerleft
+
+    [Header("Fish List")]
+    public List<FishData> fishList = new List<FishData>();
+
+    private Color commonColor = Color.white;
+    private Color uncommonColor = Color.green;
+    private Color rareColor = Color.blue;
+private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // Light Purple
 
     void Start()
     {
@@ -43,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
         Kamera();
         CheckForFishingSpot();
 
-        // Cancel fishing if player starts moving
         if (isFishing && input.magnitude > 0.1f)
         {
             StopFishing();
@@ -59,12 +92,12 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : 2f;
 
-        if (!isFishing)
+        if (!isFishing && !waitingForPopup)
         {
             x = Input.GetAxisRaw("Horizontal");
             y = Input.GetAxisRaw("Vertical");
 
-            if (x != 0) y = 0; // Prevent diagonal movement
+            if (x != 0) y = 0;
             input = new Vector2(x, y);
 
             if (input != Vector2.zero)
@@ -79,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (isInFishingSpot && Input.GetMouseButtonDown(0))
+        if (isInFishingSpot && Input.GetMouseButtonDown(0) && !waitingForPopup)
         {
             ToggleFishing();
         }
@@ -141,13 +174,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 origin = (Vector2)transform.position + direction * offsetDistance;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, fishingRayDistance, LayerMask.GetMask("Default"));
-        Color rayColor = Color.blue;
 
         if (hit.collider != null && hit.collider.CompareTag("FishingSpot"))
         {
             isInFishingSpot = true;
             currentFishingSpot = hit.collider.GetComponent<FishingSpot>();
-            rayColor = Color.cyan;
         }
         else
         {
@@ -155,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
             currentFishingSpot = null;
         }
 
-        Debug.DrawRay(origin, direction * fishingRayDistance, rayColor);
+        Debug.DrawRay(origin, direction * fishingRayDistance, Color.blue);
     }
 
     void ToggleFishing()
@@ -191,11 +222,73 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentFishingSpot != null && isFishing)
         {
-            string caught = currentFishingSpot.TryCatchFish();
-            fishCaught = true;
+            FishData caughtFish = GetRandomFish();
 
-            isFishing = false;
-            fishingCoroutine = null;
+            if (caughtFish != null)
+            {
+                ShowFishPopup(caughtFish);
+                fishCaught = true;
+                isFishing = false;
+                fishingCoroutine = null;
+
+                // Play popup animation and wait for it to finish
+                waitingForPopup = true;
+                if (popupAnimator != null)
+                {
+                    popupAnimator.SetTrigger("PlayPopUp");
+                }
+
+                yield return new WaitForSeconds(2f); // adjust to match animation duration
+                fishPanel.SetActive(false);
+                waitingForPopup = false;
+            }
+        }
+    }
+
+    FishData GetRandomFish()
+    {
+        float roll = Random.value;
+        FishData.Rarity selectedRarity;
+
+        if (roll < 0.5f)
+            selectedRarity = FishData.Rarity.Common;
+        else if (roll < 0.75f)
+            selectedRarity = FishData.Rarity.Uncommon;
+        else if (roll < 0.9f)
+            selectedRarity = FishData.Rarity.Rare;
+        else
+            selectedRarity = FishData.Rarity.Epic;
+
+        List<FishData> pool = fishList.FindAll(f => f.rarity == selectedRarity);
+        if (pool.Count == 0) return null;
+
+        return pool[Random.Range(0, pool.Count)];
+    }
+
+    void ShowFishPopup(FishData fish)
+    {
+        if (txtWindow != null && imgWindow != null && fishPanel != null)
+        {
+            txtWindow.text = fish.fishName;
+            imgWindow.sprite = fish.fishSprite;
+            fishPanel.SetActive(true);
+
+            // Set the color of the text based on rarity
+            switch (fish.rarity)
+            {
+                case FishData.Rarity.Common:
+                    txtWindow.color = commonColor;
+                    break;
+                case FishData.Rarity.Uncommon:
+                    txtWindow.color = uncommonColor;
+                    break;
+                case FishData.Rarity.Rare:
+                    txtWindow.color = rareColor;
+                    break;
+                case FishData.Rarity.Epic:
+                    txtWindow.color = epicColor;
+                    break;
+            }
         }
     }
 }
