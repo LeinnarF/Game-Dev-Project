@@ -13,6 +13,7 @@ TagManager:
   - Inventory
   - Logbook
   - TimeCYCLE
+  - Hostile
   layers:
   - Default
   - TransparentFX
