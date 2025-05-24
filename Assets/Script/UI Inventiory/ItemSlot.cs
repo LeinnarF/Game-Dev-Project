@@ -1,10 +1,10 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -48,6 +48,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         //check to see if the slot is already full
         if (isFull)
             return quantity;
+
+        if (this.itemName != "" && this.itemName != itemName)
+        return quantity;
 
         //Update Name
         this.itemName = itemName;
@@ -95,15 +98,48 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnLeftClick()
     {
-        inventoryManager.DeselectAllSlots();
-        selectedShader.SetActive(true);
-        thisItemSelected = true;
-        ItemDescriptionNameText.text = itemName;
-        ItemDescriptionText.text = itemDescription;
-        itemDescriptionImage.sprite = itemSprite;
-        if (itemDescriptionImage.sprite == null)
-            itemDescriptionImage.sprite = emptySprite;
+        if (thisItemSelected)
+        {
+            bool usable = inventoryManager.UseItem(itemName);
+            if (usable)
+            {
+                 this.quantity -= 1;
+                quantityText.text = this.quantity.ToString();
+                if (this.quantity <= 0)
+                EmptySlot();
+            }
+        }
+
+        else
+        {
+            inventoryManager.DeselectAllSlots();
+            selectedShader.SetActive(true);
+            thisItemSelected = true;
+            ItemDescriptionNameText.text = itemName;
+            ItemDescriptionText.text = itemDescription;
+            itemDescriptionImage.sprite = itemSprite;
+            itemDescriptionImage.sprite = itemSprite != null ? itemSprite : emptySprite;
+        }
     }
+
+    private void EmptySlot()
+{
+    quantity = 0;
+    isFull = false;
+    itemName = "";
+    itemDescription = "";
+    itemSprite = null;
+
+    quantityText.enabled = false;
+    itemImage.sprite = emptySprite;
+
+    ItemDescriptionNameText.text = "";
+    ItemDescriptionText.text = "";
+    itemDescriptionImage.sprite = emptySprite;
+
+    thisItemSelected = false;
+    selectedShader.SetActive(false);
+}
 
     public void OnRightClick()
     {

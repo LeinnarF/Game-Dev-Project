@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 6814131351690409308}
   - component: {fileID: 7860514928332388993}
   - component: {fileID: 7881763652062236589}
-  - component: {fileID: 2999120491026814091}
+  - component: {fileID: 4622710738420060565}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -375,7 +375,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0054906644, y: -0.5268363}
   m_Size: {x: 0.38669002, y: 0.112651125}
   m_Direction: 1
---- !u!114 &2999120491026814091
+--- !u!114 &4622710738420060565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
