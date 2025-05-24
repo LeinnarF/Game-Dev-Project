@@ -60,7 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Color commonColor = Color.white;
     private Color uncommonColor = Color.green;
-    private Color rareColor = Color.blue;
+    private Color rareColor = new Color32(173, 216, 230, 255); // Light blue using Color32
+
 private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // Light Purple
 
     void Start()

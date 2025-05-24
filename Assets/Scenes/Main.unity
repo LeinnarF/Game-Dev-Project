@@ -8902,6 +8902,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1489146743}
+  - {fileID: 576380711409875953}
   m_Father: {fileID: 141019511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &891781571
@@ -287161,7 +287162,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 891781570}
     m_Modifications:
     - target: {fileID: 462665947183658148, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
       propertyPath: m_Pivot.x
@@ -287243,6 +287244,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1950324709419684327, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 314.2007
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950324709419684327, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 69.6895
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604241486134153174, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -160
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604241486134153174, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0000030994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797835168501981894, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900592967139735835, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1452.758
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900592967139735835, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -708.15967
+      objectReference: {fileID: 0}
     - target: {fileID: 5720133435131422339, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
       propertyPath: m_Name
       value: window
@@ -287309,6 +287338,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!224 &576380711409875953 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 462665947183658148, guid: 54fcc9d2aff9db046857cb8601ed7060, type: 3}
+  m_PrefabInstance: {fileID: 576380711409875944}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &946615875231307112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287431,12 +287465,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
+      propertyPath: fishList.Array.data[5].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
       propertyPath: fishList.Array.data[6].rarity
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
       propertyPath: fishList.Array.data[7].rarity
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
       propertyPath: fishList.Array.data[8].rarity
@@ -287476,7 +287514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
       propertyPath: fishList.Array.data[17].rarity
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7860514928332388993, guid: 6f31538fc60e3454c8ea158143512c53, type: 3}
       propertyPath: fishList.Array.data[0].fishName
@@ -287790,4 +287828,3 @@ SceneRoots:
   - {fileID: 1453126310}
   - {fileID: 246532281}
   - {fileID: 921716553}
-  - {fileID: 576380711409875944}
