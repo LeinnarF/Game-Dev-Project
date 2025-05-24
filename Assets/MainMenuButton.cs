@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MainMenuButton : MonoBehaviour
 {
-    public static GameObject Inventory;
+    public static GameObject InventoryMenu;
     public static GameObject persistentObject2;
     public static GameObject cameraOverlay;
 
@@ -24,13 +24,13 @@ public class MainMenuButton : MonoBehaviour
         // Find Inventory GameObject (parent of InventoryMenu with tag "Inventory")
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name == "InventoryMenu" && obj.CompareTag("Inventory"))
+            if (obj.name == "InventoryMenu")
             {
                 Transform parent = obj.transform.parent;
                 if (parent != null)
                 {
-                    Inventory = parent.gameObject;
-                    Debug.Log("Inventory found: " + Inventory.name);
+                    InventoryMenu = parent.gameObject;
+                    Debug.Log("Inventory found: " + InventoryMenu.name);
                     break;
                 }
             }
@@ -70,9 +70,9 @@ public class MainMenuButton : MonoBehaviour
         {
             isInventoryActive = !isInventoryActive;
 
-            if (Inventory != null)
+            if (InventoryMenu != null)
             {
-                Inventory.SetActive(isInventoryActive);
+                InventoryMenu.SetActive(isInventoryActive);
                 Debug.Log("Inventory toggled: " + isInventoryActive);
             }
             else
@@ -91,7 +91,7 @@ public class MainMenuButton : MonoBehaviour
         Debug.Log("Logbook button clicked.");
 
         bool isBlockedLogbook = (cameraOverlay != null && cameraOverlay.activeInHierarchy)
-                              || (Inventory != null && Inventory.activeInHierarchy);
+                              || (InventoryMenu != null && InventoryMenu.activeInHierarchy);
 
         if (!isBlockedLogbook)
         {
