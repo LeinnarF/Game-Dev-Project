@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 [System.Serializable]
 public class FishData
@@ -23,10 +24,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
-    private SpriteRenderer sr;
-
-    public SpriteRenderer cmeraSprite;
-    public GameObject cameraOverlay;
 
     public float speed = 2f;
     public float sprintSpeed = 4f;
@@ -42,46 +39,75 @@ public class PlayerMovement : MonoBehaviour
     public bool isInFishingSpot = false;
     private FishingSpot currentFishingSpot;
     private Coroutine fishingCoroutine;
-    private bool fishCaught = false;
-    public bool isInCameraMode = false;
     public bool waitingForPopup = false;
+    public bool isInCameraMode = false;
 
     public float fishingRayDistance = 1.5f;
 
     [Header("Fish UI Pop-up")]
-    public GameObject popUp;         // Root GameObject (Pop-up lowerleft)
-    public GameObject fishPanel;     // Inner Panel (lowerleft)
-    public Text txtWindow;           // Legacy Text (Txt_window)
-    public Image imgWindow;          // Image (Img_window)
-    public Animator popupAnimator;   // Animator on Pop-up lowerleft
+    public GameObject popUp;
+    public GameObject fishPanel;
+    public Text txtWindow;
+    public Image imgWindow;
+    public Animator popupAnimator;
 
     [Header("Fish List")]
     public List<FishData> fishList = new List<FishData>();
 
     private Color commonColor = Color.white;
     private Color uncommonColor = Color.green;
-    private Color rareColor = new Color32(173, 216, 230, 255); // Light blue using Color32
+    private Color rareColor = new Color32(173, 216, 230, 255);
+    private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f);
 
-    private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f); // Light Purple
-    public Camera playerCamera; // Assign your player camera via Inspector or in code
-    public string targetTag = "YourTagHere"; // Replace with your object's tag to monitor
-    // Keep track of objects currently in view to avoid repetitive logs
-    private HashSet<GameObject> objectsInView = new HashSet<GameObject>();
+    [Header("Logbook Settings")]
+    public GameObject persistentObject2Prefab;
+    private GameObject persistentObject2;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-         if (playerCamera == null)
-            playerCamera = Camera.main;
+        InitializePersistentObject2();
+    }
+
+    void InitializePersistentObject2()
+    {
+        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "PersistentObject2" && obj.scene.IsValid())
+            {
+                persistentObject2 = obj;
+                break;
+            }
+        }
+
+        if (persistentObject2 == null)
+        {
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.CompareTag("Logbook") && obj.scene.IsValid())
+                {
+                    persistentObject2 = obj;
+                    break;
+                }
+            }
+        }
+
+        if (persistentObject2 == null && persistentObject2Prefab != null)
+        {
+            persistentObject2 = Instantiate(persistentObject2Prefab);
+            persistentObject2.name = "PersistentObject2";
+            persistentObject2.tag = "Logbook";
+            persistentObject2.SetActive(false);
+        }
     }
 
     void Update()
     {
         HandleInput();
         Animate();
-        Kamera();
         CheckForFishingSpot();
 
         if (isFishing && input.magnitude > 0.1f)
@@ -99,27 +125,24 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : 2f;
 
-        if (!isFishing && !waitingForPopup)
+        if (!isFishing && !waitingForPopup && !isInCameraMode)
         {
             x = Input.GetAxisRaw("Horizontal");
             y = Input.GetAxisRaw("Vertical");
-
             if (x != 0) y = 0;
             input = new Vector2(x, y);
 
             if (input != Vector2.zero)
                 lastMoveDirection = input;
         }
-
-        if (isInCameraMode)
+        else
         {
             x = 0;
             y = 0;
             input = Vector2.zero;
-            return;
         }
 
-        if (isInFishingSpot && Input.GetMouseButtonDown(0) && !waitingForPopup)
+        if (isInFishingSpot && Input.GetMouseButtonDown(0) && !waitingForPopup && !isInCameraMode)
         {
             ToggleFishing();
         }
@@ -147,31 +170,6 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("isMoving", isMoving);
         anim.SetBool("isFishing", isFishing);
-
-        if (isFishing)
-            anim.SetBool("isMoving", false);
-    }
-
-    void Kamera()
-    {
-        if (Input.GetKeyDown(KeyCode.C) &&
-            GameObject.Find("PersistentObject2") == null &&
-            GameObject.Find("InventoryMenu") == null)
-        {
-            isInCameraMode = !isInCameraMode;
-            anim.SetBool("Camera", isInCameraMode);
-
-            if (isInCameraMode)
-            {
-                FindAnyObjectByType<CameraMode>().SnapToPlayer();
-            }
-
-            if (cmeraSprite != null)
-                cmeraSprite.enabled = isInCameraMode;
-
-            if (cameraOverlay != null)
-                cameraOverlay.SetActive(isInCameraMode);
-        }
     }
 
     void CheckForFishingSpot()
@@ -199,13 +197,11 @@ public class PlayerMovement : MonoBehaviour
     void ToggleFishing()
     {
         isFishing = !isFishing;
-
-        if (isFishing)
+        if (isFishing && fishingCoroutine == null)
         {
-            if (fishingCoroutine == null)
-                fishingCoroutine = StartCoroutine(FishingTimer());
+            fishingCoroutine = StartCoroutine(FishingTimer());
         }
-        else
+        else if (!isFishing)
         {
             StopFishing();
         }
@@ -214,7 +210,6 @@ public class PlayerMovement : MonoBehaviour
     void StopFishing()
     {
         isFishing = false;
-
         if (fishingCoroutine != null)
         {
             StopCoroutine(fishingCoroutine);
@@ -234,18 +229,16 @@ public class PlayerMovement : MonoBehaviour
             if (caughtFish != null)
             {
                 ShowFishPopup(caughtFish);
-                fishCaught = true;
+                AddFishToLogbook(caughtFish);
+
                 isFishing = false;
                 fishingCoroutine = null;
-
-                // Play popup animation and wait for it to finish
                 waitingForPopup = true;
-                if (popupAnimator != null)
-                {
-                    popupAnimator.SetTrigger("PlayPopUp");
-                }
 
-                yield return new WaitForSeconds(2f); // adjust to match animation duration
+                if (popupAnimator != null)
+                    popupAnimator.SetTrigger("PlayPopUp");
+
+                yield return new WaitForSeconds(2f);
                 fishPanel.SetActive(false);
                 waitingForPopup = false;
             }
@@ -267,9 +260,7 @@ public class PlayerMovement : MonoBehaviour
             selectedRarity = FishData.Rarity.Epic;
 
         List<FishData> pool = fishList.FindAll(f => f.rarity == selectedRarity);
-        if (pool.Count == 0) return null;
-
-        return pool[Random.Range(0, pool.Count)];
+        return pool.Count == 0 ? null : pool[Random.Range(0, pool.Count)];
     }
 
     void ShowFishPopup(FishData fish)
@@ -280,7 +271,6 @@ public class PlayerMovement : MonoBehaviour
             imgWindow.sprite = fish.fishSprite;
             fishPanel.SetActive(true);
 
-            // Set the color of the text based on rarity
             switch (fish.rarity)
             {
                 case FishData.Rarity.Common:
@@ -296,6 +286,87 @@ public class PlayerMovement : MonoBehaviour
                     txtWindow.color = epicColor;
                     break;
             }
+        }
+    }
+
+    void AddFishToLogbook(FishData fish)
+    {
+        if (persistentObject2 == null)
+        {
+            GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.name == "PersistentObject2" && obj.scene.IsValid())
+                {
+                    persistentObject2 = obj;
+                    break;
+                }
+            }
+
+            if (persistentObject2 == null)
+            {
+                foreach (GameObject obj in allObjects)
+                {
+                    if (obj.CompareTag("Logbook") && obj.scene.IsValid())
+                    {
+                        persistentObject2 = obj;
+                        break;
+                    }
+                }
+            }
+
+            if (persistentObject2 == null)
+            {
+                Debug.LogWarning("PersistentObject2 (Logbook) not found.");
+                return;
+            }
+        }
+
+        string fishSpriteName = fish.fishSprite.name;
+        Match numberMatch = Regex.Match(fishSpriteName, @"\d+");
+
+        if (numberMatch.Success && int.TryParse(numberMatch.Value, out int fishNumber))
+        {
+            string expectedSilhouteID = $"silhoute{fishNumber}";
+
+            Image[] allImages = persistentObject2.GetComponentsInChildren<Image>(true);
+            bool matchFound = false;
+
+            foreach (Image img in allImages)
+            {
+                if (img.sprite != null)
+                {
+                    string spriteName = img.sprite.name.ToLower();
+                    if (spriteName.Contains(expectedSilhouteID))
+                    {
+                        img.gameObject.SetActive(false);
+                        Debug.Log($"Deactivated silhoute: {img.gameObject.name} ({spriteName})");
+                        matchFound = true;
+                        break;
+                    }
+                }
+
+                if (!matchFound)
+                {
+                    string goName = img.gameObject.name.ToLower();
+                    if (goName.Contains(expectedSilhouteID))
+                    {
+                        img.gameObject.SetActive(false);
+                        Debug.Log($"Deactivated silhoute GameObject by name: {img.gameObject.name}");
+                        matchFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!matchFound)
+            {
+                Debug.LogWarning($"No matching silhoute found for fish {fishNumber}");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Could not extract number from sprite: {fishSpriteName}");
         }
     }
 }
