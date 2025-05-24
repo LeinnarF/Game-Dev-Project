@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 6814131351690409308}
   - component: {fileID: 7860514928332388993}
   - component: {fileID: 7881763652062236589}
+  - component: {fileID: 2999120491026814091}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -374,6 +375,22 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0054906644, y: -0.5268363}
   m_Size: {x: 0.38669002, y: 0.112651125}
   m_Direction: 1
+--- !u!114 &2999120491026814091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997335697096821794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809d2a927256d1040b0930dff9499407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxStamina: 100
+  staminaText: {fileID: 0}
+  bedSceneName: Inside Cabin
 --- !u!1 &6975587378035769705
 GameObject:
   m_ObjectHideFlags: 0
