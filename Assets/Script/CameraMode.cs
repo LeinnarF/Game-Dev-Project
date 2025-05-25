@@ -38,7 +38,16 @@ public class CameraMode : MonoBehaviour
         { "Owl", new AnimalData("6", AnimalRarity.Uncommon) },
         { "Frog", new AnimalData("3", AnimalRarity.Common) },
         { "Fox", new AnimalData("2", AnimalRarity.Uncommon) },
-        { "Wolf", new AnimalData("25", AnimalRarity.Rare) }
+        { "Wolf", new AnimalData("25", AnimalRarity.Uncommon) },
+        { "Bisen", new AnimalData("30", AnimalRarity.Rare) },
+        { "blue", new AnimalData("15", AnimalRarity.Epic) },
+        { "Caribou", new AnimalData("32", AnimalRarity.Rare) },
+        { "duck", new AnimalData("23", AnimalRarity.Epic) },
+        { "Justin", new AnimalData("31", AnimalRarity.Rare) },
+        { "Martin", new AnimalData("14", AnimalRarity.Epic) },
+        { "Reindeer", new AnimalData("5", AnimalRarity.Rare) },
+        { "Xbill", new AnimalData("33", AnimalRarity.Epic) }
+       
     };
     private readonly Dictionary<string, string> animalNameToImageSuffix = new()
     {
@@ -48,7 +57,15 @@ public class CameraMode : MonoBehaviour
         { "Owl", "6" },
         { "Frog", "3" },
         { "Fox", "2" },
-        { "Wolf", "25" }
+        { "Wolf", "25" },
+        { "Bisen","30" },
+        { "blue", "15"},
+        { "Caribou", "32"},
+        { "duck", "23"},
+        { "Justin", "31" },
+        { "Martin", "14" },
+        { "Reindeer", "5" },
+        { "Xbill","33" }
     };
     
 
