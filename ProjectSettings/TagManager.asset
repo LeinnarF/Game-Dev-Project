@@ -14,6 +14,7 @@ TagManager:
   - Logbook
   - TimeCYCLE
   - Hostile
+  - tanda_old
   layers:
   - Default
   - TransparentFX
