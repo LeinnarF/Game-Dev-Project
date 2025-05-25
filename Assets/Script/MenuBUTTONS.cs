@@ -5,14 +5,19 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public int SceneToLoad;
+    public int SceneToLoadNewgame;
+    public int SceneToLoadContinue;
     public GameObject FaidOut;
 
     public void OnContinue()
     {
-        // Load the last saved game or the game scene
-        // Assuming the game scene is named "GameScene"
-        SceneManager.LoadScene("Main");
+       StartCoroutine(loadCon());
+    }
+    IEnumerator loadCon()
+    {
+        Instantiate(FaidOut);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(SceneToLoadContinue, LoadSceneMode.Single);
     }
 
     public void OnNewGame()
@@ -23,7 +28,7 @@ public class MainMenu : MonoBehaviour
     {
         Instantiate(FaidOut);
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(SceneToLoad, LoadSceneMode.Single);
+        SceneManager.LoadScene(SceneToLoadNewgame, LoadSceneMode.Single);
     }
     public void OnSettings()
     {

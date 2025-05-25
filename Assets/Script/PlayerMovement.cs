@@ -16,7 +16,8 @@ public class FishData
         Common,
         Uncommon,
         Rare,
-        Epic
+        Epic,
+        Legendary
     }
 }
 
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private Color rareColor = new Color32(173, 216, 230, 255);
     private Color epicColor = new Color(221f / 255f, 160f / 255f, 221f / 255f);
 
+    private Color legendaryColor = new Color(221f / 255f, 160f / 255f, 221f / 255f);
     [Header("Logbook Settings")]
     public GameObject persistentObject2Prefab;
     private GameObject persistentObject2;
@@ -257,10 +259,12 @@ public class PlayerMovement : MonoBehaviour
             selectedRarity = FishData.Rarity.Common;
         else if (roll < 0.75f)
             selectedRarity = FishData.Rarity.Uncommon;
-        else if (roll < 0.99f)
+        else if (roll < 0.80f)
             selectedRarity = FishData.Rarity.Rare;
-        else
+        else if (roll < 0.90f)
             selectedRarity = FishData.Rarity.Epic;
+        else
+            selectedRarity = FishData.Rarity.Legendary;
 
         List<FishData> pool = fishList.FindAll(f => f.rarity == selectedRarity);
         return pool.Count == 0 ? null : pool[Random.Range(0, pool.Count)];
@@ -287,6 +291,9 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 case FishData.Rarity.Epic:
                     txtWindow.color = epicColor;
+                    break;
+                case FishData.Rarity.Legendary:
+                    txtWindow.color = legendaryColor;
                     break;
             }
         }
