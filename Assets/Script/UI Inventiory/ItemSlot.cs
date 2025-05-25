@@ -38,32 +38,33 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     private InventoryManager inventoryManager;
 
-     void Start()
+   private void Start()
+{
+    StartCoroutine(FindUIElements());
+}
+
+IEnumerator FindUIElements()
+{
+    yield return new WaitForSeconds(0.1f);
+
+    GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+    foreach (GameObject obj in allObjects)
     {
-        StartCoroutine(FindUIElements());
-    }
-
-    IEnumerator FindUIElements()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
-
-        // Find Inventory GameObject (parent of InventoryMenu with tag "Inventory")
-        foreach (GameObject obj in allObjects)
+        if (obj.name == "InventoryMenu")
         {
-            if (obj.name == "PersistentObject3")
+            Transform parent = obj.transform.parent;
+            if (parent != null)
             {
-                Transform parent = obj.transform.parent;
-                if (parent != null)
-                {
-                    InventoryMenu = parent.gameObject;
-                    Debug.Log("Inventory found: " + InventoryMenu.name);
-                    break;
-                }
+                InventoryMenu = parent.gameObject;
+                inventoryManager = InventoryMenu.GetComponent<InventoryManager>(); // ✅ FIXED
+                Debug.Log("Inventory found: " + InventoryMenu.name);
+                break;
             }
         }
     }
+}
+
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         //check to see if the slot is already full
@@ -118,30 +119,34 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnLeftClick()
+{
+    if (thisItemSelected)
     {
-        if (thisItemSelected)
-        {
-            bool usable = inventoryManager.UseItem(itemName);
-            if (usable)
-            {
-                 this.quantity -= 1;
-                quantityText.text = this.quantity.ToString();
-                if (this.quantity <= 0)
-                EmptySlot();
-            }
-        }
+        // Show item info first
+        ItemDescriptionNameText.text = itemName;
+        ItemDescriptionText.text = itemDescription;
+        itemDescriptionImage.sprite = itemSprite != null ? itemSprite : emptySprite;
 
-        else
+        bool usable = inventoryManager.UseItem(itemName);
+        if (usable)
         {
-            inventoryManager.DeselectAllSlots();
-            selectedShader.SetActive(true);
-            thisItemSelected = true;
-            ItemDescriptionNameText.text = itemName;
-            ItemDescriptionText.text = itemDescription;
-            itemDescriptionImage.sprite = itemSprite;
-            itemDescriptionImage.sprite = itemSprite != null ? itemSprite : emptySprite;
+            this.quantity -= 1;
+            quantityText.text = this.quantity.ToString();
+            if (this.quantity <= 0)
+                EmptySlot();
         }
     }
+    else
+    {
+        inventoryManager.DeselectAllSlots();
+        selectedShader.SetActive(true);
+        thisItemSelected = true;
+
+        ItemDescriptionNameText.text = itemName;
+        ItemDescriptionText.text = itemDescription;
+        itemDescriptionImage.sprite = itemSprite != null ? itemSprite : emptySprite;
+    }
+}
 
     private void EmptySlot()
 {

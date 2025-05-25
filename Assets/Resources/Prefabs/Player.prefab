@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 738003052770600555}
   - component: {fileID: 2904600842327204039}
   - component: {fileID: 5233402385301145660}
+  - component: {fileID: 3574792025580130307}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -154,13 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163b444dba9d70489d9cf8e85ac8400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cmeraSprite: {fileID: 4303116221594993469}
-  cameraOverlay: {fileID: 0}
   speed: 2
   sprintSpeed: 4
   isFishing: 0
   isInFishingSpot: 0
-  isInCameraMode: 0
   waitingForPopup: 0
   fishingRayDistance: 1.5
   popUp: {fileID: 0}
@@ -223,6 +221,10 @@ MonoBehaviour:
   - fishName: Citizen Ruffe Fish
     fishSprite: {fileID: 3647983363285555743, guid: 177d5337aecb1c0448cdcb39b9d3f2fe, type: 3}
     rarity: 3
+  persistentObject2Prefab: {fileID: 0}
+  cmeraSprite: {fileID: 4303116221594993469}
+  cameraOverlay: {fileID: 0}
+  isInCameraMode: 0
 --- !u!70 &5233402385301145660
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -260,6 +262,22 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0054906644, y: -0.5268363}
   m_Size: {x: 0.38669002, y: 0.112651125}
   m_Direction: 1
+--- !u!114 &3574792025580130307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263084701438353465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809d2a927256d1040b0930dff9499407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxStamina: 100
+  staminaText: {fileID: 0}
+  bedSceneName: Inside Cabin
 --- !u!1 &1092346460923523819
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +546,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   Logook: {fileID: 0}
+  CameraWindowPanel: {fileID: 0}
+  CameraWindowAnimator: {fileID: 0}
+  TxtWindow: {fileID: 0}
+  ImageWindow: {fileID: 0}
+  commonColor: {r: 1, g: 1, b: 1, a: 1}
+  uncommonColor: {r: 0.5235849, g: 1, b: 0.5235849, a: 1}
+  rareColor: {r: 0.2216981, g: 0.4535277, b: 1, a: 1}
+  epicColor: {r: 0.6031971, g: 0, b: 1, a: 1}
 --- !u!61 &6960241298684204205
 BoxCollider2D:
   m_ObjectHideFlags: 0

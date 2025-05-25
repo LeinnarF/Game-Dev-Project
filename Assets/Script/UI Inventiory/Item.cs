@@ -36,7 +36,7 @@ public class Item : MonoBehaviour
 
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name == "PersistentObject3")
+            if (obj.name == "InventoryMenu")
             {
                 Transform parent = obj.transform.parent;
                 if (parent != null)
