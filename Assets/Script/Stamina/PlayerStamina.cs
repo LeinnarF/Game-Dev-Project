@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerStamina : MonoBehaviour
 {
     public int stamina;
     public int maxStamina = 100;
-    public TMP_Text staminaText;
+    public Text staminaText;
 
     public string bedSceneName = "Inside Cabin"; // Set this to your actual bed scene name
     private bool isRespawning = false;

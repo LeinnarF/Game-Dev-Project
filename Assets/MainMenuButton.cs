@@ -6,9 +6,11 @@ public class MainMenuButton : MonoBehaviour
     public static GameObject persistentObject3;
     public static GameObject persistentObject2;
     public static GameObject cameraOverlay;
+    private GameObject CameraOverlay; // Camera overlay GameObject
 
     private bool isInventoryActive = false;
     private bool isLogbookActive = false;
+    private bool isCameraActive = false;
 
     void Start()
     {
@@ -26,7 +28,7 @@ public class MainMenuButton : MonoBehaviour
         {
             if (obj.name == "PersistentObject3")
             {
-                 persistentObject3 = obj;
+                persistentObject3 = obj;
                 if (persistentObject3 != null)
                 {
                     Debug.Log("Inventory found: " + persistentObject3.name);
@@ -115,7 +117,20 @@ public class MainMenuButton : MonoBehaviour
     public void CameraM()
     {
         Debug.Log("Camera button clicked.");
-        // Add camera toggle logic here if needed
+
+        // Check if the camera overlay is active
+        if (cameraOverlay != null)
+        {
+            isCameraActive = !isCameraActive; // Toggle camera state
+            cameraOverlay.SetActive(isCameraActive); // Set camera overlay active/inactive
+
+            // Optionally, you can also manage the player state or other UI elements here
+            Debug.Log("Camera overlay toggled: " + isCameraActive);
+        }
+        else
+        {
+            Debug.LogWarning("CameraOverlay not found or not yet loaded.");
+        }
     }
 
     public void ChatM()

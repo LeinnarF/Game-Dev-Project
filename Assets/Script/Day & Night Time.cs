@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LightIntensityController : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class LightIntensityController : MonoBehaviour
     public Light2D NightSource;
     public Light2D LampLight;
 
-    public TextMeshProUGUI timeText;
-    public TextMeshProUGUI dayText;
+    public Text timeText;
+    public Text dayText;
 
     [Header("Main Time Setting")]
     public int realMinutesPerGameDay = 24;

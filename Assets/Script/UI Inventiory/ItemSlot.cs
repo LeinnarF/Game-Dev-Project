@@ -21,15 +21,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     //ItemSlot
     [SerializeField]
-    private TMP_Text quantityText;
+    private Text quantityText;
 
     [SerializeField]
     private Image itemImage;
 
     //Item DescriptionSlot
     public Image itemDescriptionImage;
-    public TMP_Text ItemDescriptionNameText;
-    public TMP_Text ItemDescriptionText;
+    public Text ItemDescriptionNameText;
+    public Text ItemDescriptionText;
 
     public GameObject InventoryMenu;
 
