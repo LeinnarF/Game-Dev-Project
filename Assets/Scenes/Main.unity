@@ -7205,7 +7205,11 @@ PrefabInstance:
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: popUp
       value: 
-      objectReference: {fileID: 576380711409875945}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: TxtWindow
+      value: 
+      objectReference: {fileID: 1480389044}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: fishPanel
       value: 
@@ -7213,27 +7217,63 @@ PrefabInstance:
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: imgWindow
       value: 
-      objectReference: {fileID: 1051622128}
+      objectReference: {fileID: 0}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: txtWindow
       value: 
-      objectReference: {fileID: 1480389044}
+      objectReference: {fileID: 0}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: AnimalPanel
       value: 
-      objectReference: {fileID: 576380711409875946}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: ImageWindow
+      value: 
+      objectReference: {fileID: 1051622128}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: epicColor.r
+      value: 0.6031971
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: rareColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: rareColor.g
+      value: 0.4535277
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: rareColor.r
+      value: 0.2216981
+      objectReference: {fileID: 0}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: CameraOverlay
       value: 
-      objectReference: {fileID: 1493468356}
+      objectReference: {fileID: 0}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: popupAnimator
       value: 
       objectReference: {fileID: 576380711409875949}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: uncommonColor.b
+      value: 0.5235849
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: uncommonColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: uncommonColor.r
+      value: 0.5235849
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: CameraWindowPanel
+      value: 
+      objectReference: {fileID: 576380711409875946}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: CameraOverlayPanel
       value: 
-      objectReference: {fileID: 1916934811}
+      objectReference: {fileID: 0}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: animalPanelAnimator
       value: 
@@ -7242,6 +7282,10 @@ PrefabInstance:
       propertyPath: fishList.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
+      propertyPath: CameraWindowAnimator
+      value: 
+      objectReference: {fileID: 576380711409875949}
     - target: {fileID: 8942024110843820760, guid: 17be11ef2eaa06b42aca6e19aea71863, type: 3}
       propertyPath: fishList.Array.data[0].fishName
       value: Frog
@@ -283178,11 +283222,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84b87230d84f7a944a1829bd742958f3, type: 3}
---- !u!1 &1916934811 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8144887308655689899, guid: d4443f1dd7c6a8e4fa71d794169e8bbd, type: 3}
-  m_PrefabInstance: {fileID: 3506292937270030894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1916934815 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 218297259788364315, guid: d4443f1dd7c6a8e4fa71d794169e8bbd, type: 3}

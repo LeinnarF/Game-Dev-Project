@@ -1,14 +1,56 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using System.Text.RegularExpressions;
+using System.Linq;
+using UnityEngine.Serialization;
 
+ [System.Serializable]
+    public class AnimalData
+    {
+        public string imageSuffix;
+        public AnimalRarity rarity;
+        public Sprite animalSprite; // You can assign this in the inspector or load it dynamically
+
+        public AnimalData(string suffix, AnimalRarity animalRarity)
+        {
+            imageSuffix = suffix;
+            rarity = animalRarity;
+        }
+    }
+    
+
+    public enum AnimalRarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic
+    }
 public class CameraMode : MonoBehaviour
 {
-    public GameObject popUp; 
-    public GameObject AnimalPanel; // Inner Panel (lower left)
-    public Text txtWindow; // Legacy Text (Txt_window)
-    public Image imgWindow; // Image (Img_window)
+    private readonly Dictionary<string, AnimalData> animalDatabase = new()
+    {
+        { "Buuni", new AnimalData("1", AnimalRarity.Common) },
+        { "Daddy_Bear", new AnimalData("22", AnimalRarity.Epic) },
+        { "Moose", new AnimalData("4", AnimalRarity.Rare) },
+        { "Owl", new AnimalData("6", AnimalRarity.Uncommon) },
+        { "Frog", new AnimalData("3", AnimalRarity.Common) },
+        { "Fox", new AnimalData("2", AnimalRarity.Uncommon) },
+        { "Wolf", new AnimalData("25", AnimalRarity.Rare) }
+    };
+    private readonly Dictionary<string, string> animalNameToImageSuffix = new()
+    {
+        { "Buuni", "1" },
+        { "Daddy_Bear", "22" },
+        { "Moose", "4" },
+        { "Owl", "6" },
+        { "Frog", "3" },
+        { "Fox", "2" },
+        { "Wolf", "25" }
+    };
+    
 
     public float moveSpeed = 5f;
     private PlayerMovement player;
@@ -20,39 +62,31 @@ public class CameraMode : MonoBehaviour
     private HashSet<string> seenAnimals = new();
     private HashSet<string> capturedAnimals = new();
 
-    public GameObject CameraOverlay; // Camera overlay GameObject
-    public GameObject CameraOverlayPanel; // Image inside CameraOverlay
+    private GameObject CameraOverlay; // Camera overlay GameObject
+    public GameObject CameraWindowPanel; // Image inside CameraOverlay
+    public Animator CameraWindowAnimator;
+    public Text TxtWindow;
+    public Image ImageWindow;
     private Animator cameraOverlayAnimator;
 
-    // Map animal names to image number suffix
-    private readonly Dictionary<string, string> animalNameToImageSuffix = new()
-    {
-        { "Buuni", "1" },
-        { "Daddy_Bear", "22" },
-        { "Moose", "4" },
-        { "Owl", "6" },
-        { "Frog", "3" },
-        { "Fox", "2" },
-        { "Wolf", "25" }
-    };
+    // Color settings for different animal rarities/types
+    public Color commonColor = Color.white;
+    public Color uncommonColor = Color.green;
+    public Color rareColor = Color.blue;
+    public Color epicColor = Color.magenta;
+
+    // Map animal names to image number suffix and rarity
+
+
+    // Legacy dictionary for backward compatibility
+
+
+
 
     void Start()
     {
         player = FindFirstObjectByType<PlayerMovement>();
         mainCam = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
-
-        if (CameraOverlay != null)
-        {
-            cameraOverlayAnimator = CameraOverlayPanel.GetComponent<Animator>();
-            if (cameraOverlayAnimator == null)
-            {
-                Debug.LogWarning("Animator component not found on CameraOverlay GameObject.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("CameraOverlay GameObject is not assigned.");
-        }
 
         StartCoroutine(FindLogbookAndImages());
     }
@@ -92,10 +126,11 @@ public class CameraMode : MonoBehaviour
                     cameraOverlayAnimator.SetTrigger("Camera");
                 }
 
-                bool capturedAny = TryCaptureAnimal();
-                if (capturedAny)
+                string capturedAnimal = TryCaptureAnimal();
+                if (!string.IsNullOrEmpty(capturedAnimal))
                 {
-                    Debug.Log("Captured new animal(s).");
+                    Debug.Log($"Captured new animal: {capturedAnimal}");
+                    ShowAnimalPopup(capturedAnimal);
                 }
             }
         }
@@ -139,7 +174,7 @@ public class CameraMode : MonoBehaviour
         }
     }
 
-    bool TryCaptureAnimal()
+    string TryCaptureAnimal()
     {
         GameObject[] allAnimals = GameObject.FindGameObjectsWithTag("Animal");
         GameObject[] hostileAnimals = GameObject.FindGameObjectsWithTag("Hostile");
@@ -149,8 +184,6 @@ public class CameraMode : MonoBehaviour
         all.AddRange(allAnimals);
         all.AddRange(hostileAnimals);
         all.AddRange(flyingAnimals);
-
-        bool capturedAny = false;
 
         foreach (GameObject animal in all)
         {
@@ -162,15 +195,90 @@ public class CameraMode : MonoBehaviour
                 if (animal.name.Contains(animalName) && IsInView(animal) && !capturedAnimals.Contains(animalName))
                 {
                     capturedAnimals.Add(animalName);
-                    capturedAny = true;
 
                     if (animalImages.ContainsKey(animalName))
                         MakeImageTransparent(animalImages[animalName].unknown, $"unknown ({suffix})");
+
+                    return animalName; // Return the captured animal name
                 }
             }
         }
 
-        return capturedAny;
+        return string.Empty; // No animal captured
+    }
+
+    void ShowAnimalPopup(string animalName)
+    {
+        if (TxtWindow != null && ImageWindow != null && CameraWindowPanel != null && animalDatabase.ContainsKey(animalName))
+        {
+            AnimalData animalData = animalDatabase[animalName];
+
+            // Set animal name
+            TxtWindow.text = animalName.Replace("_", " "); // Replace underscores with spaces for display
+
+            // Set animal image (you'll need to assign sprites to the AnimalData or load them dynamically)
+            if (animalData.animalSprite != null)
+            {
+                ImageWindow.sprite = animalData.animalSprite;
+            }
+            else
+            {
+                // Try to load sprite from Resources folder based on animal name
+                Sprite loadedSprite = Resources.Load<Sprite>($"Animals/{animalName}");
+                if (loadedSprite != null)
+                {
+                    ImageWindow.sprite = loadedSprite;
+                    animalData.animalSprite = loadedSprite; // Cache it for next time
+                }
+            }
+
+            Debug.Log($"Showing popup for animal: {animalName}");
+            CameraWindowPanel.SetActive(true);
+
+            // Set text color based on rarity
+            switch (animalData.rarity)
+            {
+                case AnimalRarity.Common:
+                    TxtWindow.color = commonColor;
+                    break;
+                case AnimalRarity.Uncommon:
+                    TxtWindow.color = uncommonColor;
+                    break;
+                case AnimalRarity.Rare:
+                    TxtWindow.color = rareColor;
+                    break;
+                case AnimalRarity.Epic:
+                    TxtWindow.color = epicColor;
+                    break;
+            }
+
+            // Trigger animation if available
+            if (CameraWindowAnimator != null)
+            {
+                CameraWindowAnimator.SetTrigger("PlayPopUp"); // You'll need to create this trigger in your animator
+            }
+
+            // Auto-hide popup after a few seconds (optional)
+            StartCoroutine(HidePopupAfterDelay(3f));
+        }
+    }
+
+    IEnumerator HidePopupAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (CameraWindowPanel != null)
+        {
+            CameraWindowPanel.SetActive(false);
+        }
+    }
+
+    // Public method to manually hide the popup (can be called by UI button)
+    public void HideAnimalPopup()
+    {
+        if (CameraWindowPanel != null)
+        {
+            CameraWindowPanel.SetActive(false);
+        }
     }
 
     bool IsInView(GameObject obj)

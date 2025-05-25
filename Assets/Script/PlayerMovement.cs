@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
+    private SpriteRenderer sr;
 
     public float speed = 2f;
     public float sprintSpeed = 4f;
@@ -40,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
     private FishingSpot currentFishingSpot;
     private Coroutine fishingCoroutine;
     public bool waitingForPopup = false;
-    public bool isInCameraMode = false;
 
     public float fishingRayDistance = 1.5f;
 
@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         InitializePersistentObject2();
     }
@@ -136,11 +137,12 @@ public class PlayerMovement : MonoBehaviour
             if (input != Vector2.zero)
                 lastMoveDirection = input;
         }
-        else
+        if (isInCameraMode)
         {
             x = 0;
             y = 0;
             input = Vector2.zero;
+            return;
         }
 
         if (isInFishingSpot && Input.GetMouseButtonDown(0) && !waitingForPopup && !isInCameraMode)
@@ -372,6 +374,7 @@ public class PlayerMovement : MonoBehaviour
     }
        public SpriteRenderer cmeraSprite;
     public GameObject cameraOverlay;
+     public bool isInCameraMode = false;
     void Kamera()
     {
         if (Input.GetKeyDown(KeyCode.C) &&

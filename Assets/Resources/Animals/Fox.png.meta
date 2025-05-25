@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 146000f3e463005488ac796d859db234
+guid: 0e26a50ab2235f6408e6b4bf8733e4fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2320826463758478032
-    second: PANEL3_0
+      213: -2746928018612680561
+    second: animals5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PANEL3_0
+      name: animals5_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 640
+        width: 320
         height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0359952a0a4cacfd0800000000000000
-      internalID: -2320826463758478032
+      spriteID: f88060b5583f0e9d0800000000000000
+      internalID: -2746928018612680561
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PANEL3_0: -2320826463758478032
+      animals5_0: -2746928018612680561
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
