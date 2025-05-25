@@ -42,7 +42,7 @@ public class CameraMode : MonoBehaviour
         { "Bisen", new AnimalData("30", AnimalRarity.Rare) },
         { "blue", new AnimalData("15", AnimalRarity.Epic) },
         { "Caribou", new AnimalData("32", AnimalRarity.Rare) },
-        { "duck", new AnimalData("23", AnimalRarity.Epic) },
+        { "Duck", new AnimalData("23", AnimalRarity.Epic) },
         { "Justin", new AnimalData("31", AnimalRarity.Rare) },
         { "Martin", new AnimalData("14", AnimalRarity.Epic) },
         { "Reindeer", new AnimalData("5", AnimalRarity.Rare) },
