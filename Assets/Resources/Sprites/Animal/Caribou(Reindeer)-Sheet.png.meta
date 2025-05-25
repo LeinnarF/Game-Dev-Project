@@ -111,6 +111,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -259,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Caribou(Reindeer)-Sheet_0: 2987576924129751825
+      Caribou(Reindeer)-Sheet_1: 4135386403488852216
+      Caribou(Reindeer)-Sheet_2: 7655158864399377063
+      Caribou(Reindeer)-Sheet_3: -271810612952797439
+      Caribou(Reindeer)-Sheet_4: 2500391198097122068
+      Caribou(Reindeer)-Sheet_5: -7732016668846432269
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

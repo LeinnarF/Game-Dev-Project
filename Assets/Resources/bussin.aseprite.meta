@@ -1,2 +1,784 @@
 fileFormatVersion: 2
 guid: 0b064fbe5ec4c3548a92afb75bc18516
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 1
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData: []
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: 972101438
+    name: bussin
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 4b3c43ea54b1abf46897ab6ce456d7d1
+    - name: Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 95f4e928b0752e048a8593d61fa46353
+    - name: Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 8ef7e29178fc56548a25e7fc931fb813
+    - name: Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 86917acdfae94a749afbb64b023dbb0b
+    - name: Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: b203537aeca7e9a42a7623aabdcacfa3
+    - name: Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 35bcde1d22431704fb2a6ca42026f783
+    - name: Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 38b98625af82c944c99f3260584c7f82
+    - name: Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 3e52e5b1dfb44a347a98c214305ee8d7
+    - name: Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 545b03f21d8914446968b4b280e80d0d
+    - name: Frame_9
+      frameIndex: 9
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 62b10d45fe4ebc8439776b5a8c20a17d
+    - name: Frame_10
+      frameIndex: 10
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 2d42ae02b8281fa4d82439d639e98a7b
+    - name: Frame_11
+      frameIndex: 11
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 84474893ea33c2744bc52562924ade02
+    - name: Frame_12
+      frameIndex: 12
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: d0cc997d930efaa41817ff86920ad34b
+    - name: Frame_13
+      frameIndex: 13
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 9aaeb27ecb5516547a4dca9efaca55f1
+    - name: Frame_14
+      frameIndex: 14
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 40abb3ef46d871042a40445521e7eab1
+    - name: Frame_15
+      frameIndex: 15
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 3dff799412f041943816e66573d2e660
+    - name: Frame_16
+      frameIndex: 16
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: c76e29ef6b4f4a94084e94604ddf4b7f
+    - name: Frame_17
+      frameIndex: 17
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: fc558f49132d6a24d83614e453d8fec4
+    - name: Frame_18
+      frameIndex: 18
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 2945a29cd5f89ae4a8535dc766c7e1c1
+    - name: Frame_19
+      frameIndex: 19
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: beacd2b65abafe6498e01b63798308b5
+    - name: Frame_20
+      frameIndex: 20
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: df4a807714fd6d74cb0d2077056f4ff5
+    - name: Frame_21
+      frameIndex: 21
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 504c4e0de698cde489ad28053f7c73e4
+    - name: Frame_22
+      frameIndex: 22
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: d4d131eee60d6be45b42fa92589ac877
+    - name: Frame_23
+      frameIndex: 23
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: c8960e1b054cd2c4bb15df8d44381855
+    - name: Frame_24
+      frameIndex: 24
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: c529daade94b4bb4d9e02c8bbc811f5f
+    - name: Frame_25
+      frameIndex: 25
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: d3921c1aba8bcde44abc534f606406a6
+    - name: Frame_26
+      frameIndex: 26
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 2169a40fdf3cc794181858a55b16b35c
+    - name: Frame_27
+      frameIndex: 27
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 00d5b9b4191645c40a30a81b2a02915b
+    - name: Frame_28
+      frameIndex: 28
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 33809936b12e70841a14f2de45e0cc32
+    - name: Frame_29
+      frameIndex: 29
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: a19793a1291cfe846ad3b27ca80127f1
+    - name: Frame_30
+      frameIndex: 30
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 40a8096a2a82469408383fb211189ab4
+    - name: Frame_31
+      frameIndex: 31
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 0f187d8418a7e2a4d8bda4e349bc9fd4
+    - name: Frame_32
+      frameIndex: 32
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: d0709b9ebdfbcf14d9fdd082a985be21
+    - name: Frame_33
+      frameIndex: 33
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 45f25669ab3f2354f88af1dee80df8bc
+    - name: Frame_34
+      frameIndex: 34
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: f534fc500445a034291aa56e51a7770f
+    - name: Frame_35
+      frameIndex: 35
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 48900746eb7329e4d8a9e6208b6097d1
+    - name: Frame_36
+      frameIndex: 36
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 4b9b3e54d609f2d4094143217118bfdf
+    - name: Frame_37
+      frameIndex: 37
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 460535e75a79f074ea623a3b092b6567
+    - name: Frame_38
+      frameIndex: 38
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: ca00947796a2c9d48898675b1925cb16
+    - name: Frame_39
+      frameIndex: 39
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 450739149024da742a4d9438a6fc9de8
+    - name: Frame_40
+      frameIndex: 40
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: ff92849de6e1dcd4693187fbd470e168
+    - name: Frame_41
+      frameIndex: 41
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 672b669697fe476409b3cd52852406aa
+    - name: Frame_42
+      frameIndex: 42
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: b96f35f4c9f90954782b65057e85c55b
+    - name: Frame_43
+      frameIndex: 43
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 8df04bd4554344a4a9952b8caa8b2741
+    - name: Frame_44
+      frameIndex: 44
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 5d68d9146c1dab34cb7cae1ac313125b
+    - name: Frame_45
+      frameIndex: 45
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 58c6fe9f0e8a3a4448e3a054475a69fa
+    - name: Frame_46
+      frameIndex: 46
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 648a699321a095d40a7bace773ec1a83
+    - name: Frame_47
+      frameIndex: 47
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 8645ffbe1144dcf4190b05f40be6b13d
+    - name: Frame_48
+      frameIndex: 48
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 8e9819f822555c64098e08cd16c8323b
+    - name: Frame_49
+      frameIndex: 49
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 8d1757d02538cda4482118b561a7fb5d
+    - name: Frame_50
+      frameIndex: 50
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: c95caf6c155617f4699efd484e2b540e
+    - name: Frame_51
+      frameIndex: 51
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 6fae02cb8a90c0f48bb71d5b5dbd6ea8
+    - name: Frame_52
+      frameIndex: 52
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: cd85301a53b2a154c884426a1c5e90b3
+    - name: Frame_53
+      frameIndex: 53
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: aa6769b2adf884745a156f358a3b2c5a
+    - name: Frame_54
+      frameIndex: 54
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 5d8eb523c68d5aa449c9f17d5685dcf0
+    - name: Frame_55
+      frameIndex: 55
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 072069ae04fbe5842a06c6fc5080c90f
+    - name: Frame_56
+      frameIndex: 56
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 36b873642c9f6e148894109f64eed1fc
+    - name: Frame_57
+      frameIndex: 57
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 9da8ce520438b5c41b0b8c15b54db986
+    - name: Frame_58
+      frameIndex: 58
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 49aaac4ca2b918947b13dcf0b2b28172
+    - name: Frame_59
+      frameIndex: 59
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: ac03d6db92db1f0449e3ac97c76b0d24
+    - name: Frame_60
+      frameIndex: 60
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: a7de709e970e87f4eb475f5670811a95
+    - name: Frame_61
+      frameIndex: 61
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 52fbc651af4937447a3ebbace144f5de
+    - name: Frame_62
+      frameIndex: 62
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: ea421025dd67f354f97b0b8a469e7024
+    - name: Frame_63
+      frameIndex: 63
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 053a18c44d513fb4fa967719010afb3d
+    - name: Frame_64
+      frameIndex: 64
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 9673ea6535e841a40bac15bfcb8aad22
+    - name: Frame_65
+      frameIndex: 65
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 76e09affee42cd44db527b40510f011e
+    - name: Frame_66
+      frameIndex: 66
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 843788eef88c6d54290e8c07f79c9b95
+    - name: Frame_67
+      frameIndex: 67
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 5997d4c2eb645e8449e760d2ff9d3d8d
+    - name: Frame_68
+      frameIndex: 68
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 1bc1098a98c6fe44285b15674a82febb
+    - name: Frame_69
+      frameIndex: 69
+      additiveSortOrder: 0
+      cellRect:
+        x: -2622
+        y: -2178
+        width: 5500
+        height: 4500
+      spriteId: 9146ff10f616e964d8de977f035d2873
+    linkedCells: []
+    parentIndex: -1
+  platformSettings:
+  - name: Default
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  generatePhysicsShape: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 256, y: 144}
+  previousTextureSize: {x: 0, y: 0}
