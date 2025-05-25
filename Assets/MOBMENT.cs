@@ -1,6 +1,5 @@
 using System.Numerics;
 using System.Collections;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 public class WalkingMOB : MonoBehaviour
 {
@@ -24,25 +23,26 @@ public class WalkingMOB : MonoBehaviour
         timer = 0;
         InvokeRepeating(nameof(flipDirection), timer, timer);
         InvokeRepeating(nameof(movement), timer, timer);
-        
+
     }
-    
+
     // Update is called once per frame
     void Update()
-    {  
+    {
         Animate();
-    
-        if(timer == 0)
+
+        if (timer == 0)
         {
-        timer += movementDelay;
-        InvokeRepeating(nameof(flipDirection), timer, timer);
-        InvokeRepeating(nameof(movement), timer, timer);
-        } 
+            timer += movementDelay;
+            InvokeRepeating(nameof(flipDirection), timer, timer);
+            InvokeRepeating(nameof(movement), timer, timer);
+        }
         if (IsOutsideCamera())
         {
-        isDedInvoked = true;
-        InvokeRepeating(nameof(ded), dedTimer, dedTimer);
-        }else if (IsInsideCamera() && isDedInvoked)
+            isDedInvoked = true;
+            InvokeRepeating(nameof(ded), dedTimer, dedTimer);
+        }
+        else if (IsInsideCamera() && isDedInvoked)
         {
             CancelInvoke(nameof(ded));
             isDedInvoked = false;
@@ -51,14 +51,15 @@ public class WalkingMOB : MonoBehaviour
 
     void movement()
     {
-         rb.linearVelocity = new ( rb.linearVelocity.x, rb.linearVelocity.y);
+        rb.linearVelocity = new(rb.linearVelocity.x, rb.linearVelocity.y);
         int selection = Random.Range(0, 2);
         if (selection == 0)
         {
-            rb.linearVelocity = new ( rb.linearVelocity.x, direction * moveSpeed);
-        }else if (selection >= 1)
+            rb.linearVelocity = new(rb.linearVelocity.x, direction * moveSpeed);
+        }
+        else if (selection >= 1)
         {
-            rb.linearVelocity = new (direction * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new(direction * moveSpeed, rb.linearVelocity.y);
         }
     }
     void ded()
@@ -69,15 +70,18 @@ public class WalkingMOB : MonoBehaviour
     void flipDirection()
     {
         direction *= -1;
-        if(direction > 0){
-            transform.localScale = new (Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            
-        }else if(direction < 0){
-        transform.localScale = new (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        if (direction > 0)
+        {
+            transform.localScale = new(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
+        }
+        else if (direction < 0)
+        {
+            transform.localScale = new(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
     }
 
-     private bool IsOutsideCamera()     
+    private bool IsOutsideCamera()
     {
         // Get the object's position in viewport coordinates
         UnityEngine.Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
@@ -85,7 +89,7 @@ public class WalkingMOB : MonoBehaviour
         // Check if the object is outside the viewport
         return viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1;
     }
-   private bool IsInsideCamera()
+    private bool IsInsideCamera()
     {
         // Get the object's position in viewport coordinates
         UnityEngine.Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
@@ -93,19 +97,19 @@ public class WalkingMOB : MonoBehaviour
         // Check if the object is inside the viewport
         return viewportPosition.x >= 0 && viewportPosition.x <= 1 && viewportPosition.y >= 0 && viewportPosition.y <= 1;
     }
-    
+
     private void Animate()
     {
         if (rb.linearVelocity.magnitude > 0.1f || rb.linearVelocity.magnitude < -0.1f)
         {
             anim.SetBool("isWalking", true);
-             
+
         }
-        else if(rb.linearVelocity.magnitude == 0)
+        else if (rb.linearVelocity.magnitude == 0)
         {
             anim.SetBool("isWalking", false);
-        }  
+        }
     }
-    
+
 }
 
