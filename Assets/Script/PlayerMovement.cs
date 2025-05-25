@@ -372,28 +372,36 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError($"Could not extract number from sprite: {fishSpriteName}");
         }
     }
-       public SpriteRenderer cmeraSprite;
+    public SpriteRenderer cmeraSprite;
     public GameObject cameraOverlay;
-     public bool isInCameraMode = false;
-    void Kamera()
+    public bool isInCameraMode = false;
+    public void Kamera()
     {
+        // Only handles player input
         if (Input.GetKeyDown(KeyCode.C) &&
-            GameObject.Find("PersistentObject2") == null && 
-            GameObject.Find("PersistentObject3") == null)
+            (MainMenuButton.persistentObject2 == null || !MainMenuButton.persistentObject2.activeInHierarchy) &&
+            (MainMenuButton.persistentObject3 == null || !MainMenuButton.persistentObject3.activeInHierarchy))
         {
-            isInCameraMode = !isInCameraMode;
-            anim.SetBool("Camera", isInCameraMode);
-
-            if (isInCameraMode)
-            {
-                FindAnyObjectByType<CameraMode>().SnapToPlayer();
-            }
-
-            if (cmeraSprite != null)
-                cmeraSprite.enabled = isInCameraMode;
-
-            if (cameraOverlay != null)
-                cameraOverlay.SetActive(isInCameraMode);
+            ToggleCamera();
         }
+    }
+
+    public void ToggleCamera()
+    {
+        isInCameraMode = !isInCameraMode;
+        anim.SetBool("Camera", isInCameraMode);
+
+        if (isInCameraMode)
+        {
+            FindAnyObjectByType<CameraMode>()?.SnapToPlayer();
+        }
+
+        if (cmeraSprite != null)
+            cmeraSprite.enabled = isInCameraMode;
+
+        if (MainMenuButton.cameraOverlay != null)
+            MainMenuButton.cameraOverlay.SetActive(isInCameraMode);
+
+        Debug.Log("Camera toggled by method: " + isInCameraMode);
     }
 }

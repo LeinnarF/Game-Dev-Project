@@ -114,24 +114,46 @@ public class MainMenuButton : MonoBehaviour
         }
     }
 
+
+    // Using the method for toggling camera
     public void CameraM()
     {
         Debug.Log("Camera button clicked.");
 
-        // Check if the camera overlay is active
-        if (cameraOverlay != null)
+        bool isBlocked = (persistentObject3 != null && persistentObject3.activeInHierarchy)
+                      || (persistentObject2 != null && persistentObject2.activeInHierarchy);
+
+        if (!isBlocked)
         {
             isCameraActive = !isCameraActive; // Toggle camera state
-            cameraOverlay.SetActive(isCameraActive); // Set camera overlay active/inactive
 
-            // Optionally, you can also manage the player state or other UI elements here
-            Debug.Log("Camera overlay toggled: " + isCameraActive);
+            if (cameraOverlay != null)
+            {
+                cameraOverlay.SetActive(isCameraActive); // Set camera overlay active/inactive
+                Debug.Log("Camera overlay toggled: " + isCameraActive);
+
+                // Find a PlayerMovement component in the scene
+                PlayerMovement playerMovement = FindFirstObjectByType<PlayerMovement>();
+                if (playerMovement != null)
+                {
+                    playerMovement.ToggleCamera();
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerMovement component not found in the scene.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("CameraOverlay not found or not yet loaded.");
+            }
         }
         else
         {
-            Debug.LogWarning("CameraOverlay not found or not yet loaded.");
+            Debug.Log("Camera UI blocked by another UI.");
         }
     }
+
 
     public void ChatM()
     {
